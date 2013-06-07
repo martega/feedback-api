@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 module.exports = [
-    require('./app_rating_list')
-  , require('./app_rating_list_for_user')
+    require('./app_feedback')
+  , require('./app_feedback_from_user')
   , require('./app_user')
 ];
