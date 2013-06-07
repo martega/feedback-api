@@ -1,14 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////
-//                           create_app_user.js                           //
+//                              api_call.js                               //
 ////////////////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------------------
 // exports
 
-module.exports = function (req, res) {
-  // TODO
-  res.set('Content-Type', 'text/plain');
-  res.end(
-    'This is the create app user API call!'
-  );
+module.exports = {
 };

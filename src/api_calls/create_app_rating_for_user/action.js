@@ -1,14 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////
-//                         get_app_rating_list.js                         //
+//                 ./create_app_rating_for_user/action.js                 //
 ////////////////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------------------
 // exports
 
-module.exports = function (req, res) {
-  // TODO
-  res.set('Content-Type', 'text/plain');
-  res.end(
-    'This is the get app rating list API call!'
-  );
+module.exports = {
 };

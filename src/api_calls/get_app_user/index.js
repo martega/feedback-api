@@ -1,14 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////
-//                            get_app_user.js                             //
+//                        ./get_app_user/index.js                         //
 ////////////////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------------------
 // exports
 
-module.exports = function (req, res) {
-  // TODO
-  res.set('Content-Type', 'text/plain');
-  res.end(
-    'This is get app user API call!'
-  );
+module.exports = {
 };
