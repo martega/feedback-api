@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////
-//                            app_feedback.js                             //
+//                                user.js                                 //
 ////////////////////////////////////////////////////////////////////////////
 
-var getAppFeedback = require('../api_calls/get_app_feedback');
+var getUser    = require('../api_calls/get_user');
 
 module.exports = {
 
-  path: '/:app/app_feedback',
+  path:'/:app/users/:userid',
 
   methods: {
-    get: getAppFeedback
+    get: getUser
   }
 
 };

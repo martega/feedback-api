@@ -3,7 +3,10 @@
 ////////////////////////////////////////////////////////////////////////////
 
 module.exports = [
-    require('./app_feedback')
-  , require('./app_feedback_from_user')
-  , require('./app_user')
+  , require('./feature_requests')
+  , require('./feedback')
+  , require('./feedback_histogram')
+  , require('./questions')
+  , require('./user')
+  , require('./users')
 ];
