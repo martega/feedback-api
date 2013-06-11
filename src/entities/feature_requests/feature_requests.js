@@ -62,7 +62,7 @@ module.exports = function FeatureRequests(db) {
       featureRequestCollection.findAndModify(query, modification, function (err, result) {
         callback(err, result);
       });
-    }
+    });
   }
 
   //------------------------------------------------------------------------

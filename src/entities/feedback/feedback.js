@@ -51,19 +51,20 @@ module.exports = function Feedback(db) {
         callback(err, results);
       }
     });
-  }
 
-  function map() {
-    emit(this.score, { count: 1 });
-  }
-
-  function reduce(key, emits) {
-    var total = 0;
-    for (var i = 0; i < emits.length; i++) {
-      total += emits[i].count;
+    function map() {
+      emit(this.score, { count: 1 });
     }
-    return { count: total };
+
+    function reduce(key, emits) {
+      var total = 0;
+      for (var i = 0; i < emits.length; i++) {
+        total += emits[i].count;
+      }
+      return { count: total };
+    }
   }
+
 
   //------------------------------------------------------------------------
   // external interface
