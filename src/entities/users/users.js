@@ -2,5 +2,21 @@
 //                                users.js                                //
 ////////////////////////////////////////////////////////////////////////////
 
-module.exports = function Users(db) {
+module.exports = Users;
+
+function Users(db) {
+
+  function createUser() {
+  }
+
+  function getUser(userId) {
+  }
+
+  //------------------------------------------------------------------------
+  // external interface
+
+  return {
+    createUser : createUser,
+    getUser    : getUser
+  };
 };

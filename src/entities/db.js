@@ -12,7 +12,7 @@ var host = 'localhost'
 
 var server = new Server(host, port);
 
-module.exports = new Db('feedback-component', server, { safe: true });
+var db = module.exports = new Db('feedback-component', server, { safe: true });
 
 db.open(function (err) {
   if (err) {
