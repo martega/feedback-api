@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 module.exports = [
-  , require('./feature_requests')
+    require('./feature_requests')
   , require('./feedback')
   , require('./feedback_histogram')
   , require('./questions')

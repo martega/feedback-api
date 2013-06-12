@@ -2,19 +2,21 @@
 #                        Makefile for feedback-api                         #
 ############################################################################
 
-MOCHA = ./node_modules/mocha/bin/mocha
+MOCHA       = ./node_modules/.bin/mocha
+TEST_FILES  = find ./test -name '*.js'
+CONFIG_FILE = ./config/index.js
 
-test: node_modules
-	@$(MOCHA) -R spec
+test: node_modules $(CONFIG_FILE)
+	@export ENVIRONMENT=test; $(TEST_FILES) | xargs $(MOCHA) -R spec
 
-test-nyan: node_modules
-	@$(MOCHA) -R nyan
+test-nyan: node_modules $(CONFIG_FILE)
+	@export ENVIRONMENT=test; $(TEST_FILES) | xargs $(MOCHA) -R nyan
 
-test-md: node_modules
-	@$(MOCHA) -R markdown > spec.md
+test-md: node_modules $(CONFIG_FILE)
+	@export ENVIRONMENT=test; $(TEST_FILES) | xargs $(MOCHA) -R markdown > spec.md
 
-run: node_modules
-	@node ./src/main.js
+run: node_modules $(CONFIG_FILE)
+	@ENVIRONMENT=local node ./src/main.js
 
 node_modules:
 	@npm install
@@ -22,4 +24,15 @@ node_modules:
 clean:
 	@rm -rf node_modules
 
-.PHONY: run test test-md clean
+encrypt-config: $(CONFIG_FILE)
+	@openssl cast5-cbc -e -in $(CONFIG_FILE) -out $(CONFIG_FILE).cast5
+
+decrypt-config: $(CONFIG_FILE).cast5
+	@openssl cast5-cbc -d -in $(CONFIG_FILE).cast5 -out $(CONFIG_FILE)
+	@chmod 600 $(CONFIG_FILE)
+
+$(CONFIG_FILE):
+	@make decrypt-config
+
+
+.PHONY: run test test-md clean encrypt-config decrypt-config

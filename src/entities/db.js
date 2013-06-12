@@ -2,17 +2,19 @@
 //                                 db.js                                  //
 ////////////////////////////////////////////////////////////////////////////
 
-var eventBus = require('../event_bus')
+var config   = require('../../config')
+  , eventBus = require('../event_bus')
   , mongodb  = require('mongodb')
   , Server   = mongodb.Server
   , Db       = mongodb.Db;
 
-var host = 'localhost'
-  , port = 27017;
+var host   = config.db.host
+  , port   = config.db.port
+  , dbName = config.db.name;
 
 var server = new Server(host, port);
 
-var db = module.exports = new Db('feedback-component', server, { safe: true });
+var db = module.exports = new Db(dbName, server, { safe: true });
 
 db.open(function (err) {
   if (err) {

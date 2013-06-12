@@ -29,7 +29,7 @@ module.exports = function FeatureRequests(db) {
       featureRequestCollection.insert(featureRequest, { w: 1 }, function (err, result) {
         callback(err, result);
       });
-    }
+    });
   }
 
   //------------------------------------------------------------------------
@@ -44,7 +44,7 @@ module.exports = function FeatureRequests(db) {
       featureRequestCollection.find().toArray(function (err, featureRequests) {
         callback(err, featureRequests);
       });
-    }
+    });
   }
 
   //------------------------------------------------------------------------
@@ -57,9 +57,11 @@ module.exports = function FeatureRequests(db) {
       }
 
       var query        = { _id: featureRequestId }
-        , modification = { $inc: { votes: 1 } };
+        , sort         = [[ '_id', 'ascending' ]]
+        , modification = { $inc: { votes: 1 } }
+        , options      = { w: 1, new: true };
 
-      featureRequestCollection.findAndModify(query, modification, function (err, result) {
+      featureRequestCollection.findAndModify(query, sort, modification, options, function (err, result) {
         callback(err, result);
       });
     });
@@ -70,7 +72,7 @@ module.exports = function FeatureRequests(db) {
 
   return {
     createFeatureRequest             : createFeatureRequest,
-    getFeatureRequest                : getFeatureRequest,
+    getFeatureRequests               : getFeatureRequests,
     incrementFeatureRequestVoteCount : incrementFeatureRequestVoteCount
   };
 };
