@@ -21,9 +21,6 @@ run: node_modules $(CONFIG_FILE)
 node_modules:
 	@npm install
 
-clean:
-	@rm -rf node_modules
-
 encrypt-config: $(CONFIG_FILE)
 	@openssl cast5-cbc -e -in $(CONFIG_FILE) -out $(CONFIG_FILE).cast5
 
@@ -33,6 +30,9 @@ decrypt-config: $(CONFIG_FILE).cast5
 
 $(CONFIG_FILE):
 	@make decrypt-config
+
+clean:
+	@rm -rf node_modules
 
 
 .PHONY: run test test-md clean encrypt-config decrypt-config
