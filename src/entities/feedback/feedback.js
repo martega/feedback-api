@@ -17,8 +17,9 @@ module.exports = function Feedback(db) {
         comment : comment
       };
 
-      feedbackCollection.insert(feedback, { w: 1 }, function (err, result) {
-        callback(err, result);
+      feedbackCollection.insert(feedback, { w: 1 }, function (err, results) {
+        var feedback = results[0];
+        callback(err, feedback);
       });
     });
   }
@@ -40,7 +41,7 @@ module.exports = function Feedback(db) {
 
   //------------------------------------------------------------------------
 
-  function getFeebackHistogram(app, callback) {
+  function getFeedbackHistogram(app, callback) {
     db.collection(app + '.feedback', function (err, feedbackCollection) {
       if (err) {
         callback(err);
@@ -48,8 +49,16 @@ module.exports = function Feedback(db) {
       }
 
       feedbackCollection.mapReduce(map, reduce, { out: { inline: 1 } }, function (err, results) {
-        callback(err, results);
-      }
+        var histogram = {};
+
+        results.forEach(function (doc) {
+          var score = doc._id
+            , count = doc.value.count;
+          histogram[score] = count;
+        });
+
+        callback(err, histogram);
+      });
     });
 
     function map() {
