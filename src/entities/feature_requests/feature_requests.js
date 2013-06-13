@@ -26,8 +26,9 @@ module.exports = function FeatureRequests(db) {
         votes       : INITIAL_VOTES
       };
 
-      featureRequestCollection.insert(featureRequest, { w: 1 }, function (err, result) {
-        callback(err, result);
+      featureRequestCollection.insert(featureRequest, { w: 1 }, function (err, results) {
+        var featureRequest = results[0];
+        callback(err, featureRequest);
       });
     });
   }

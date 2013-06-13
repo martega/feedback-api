@@ -9,8 +9,8 @@ var expect          = require('chai').expect
 
 
 
-// The fake application to use in these tests and its corresponding feature
-// request collection.
+// The fake application name to use in these tests and its corresponding
+// feature request mongo collection.
 
 var app = 'fake_app'
   , featureRequestsCollection;
@@ -56,11 +56,11 @@ describe('Feature Requests', function () {
         , title       = 'Update UI'
         , description = 'Make the UI more modern!';
 
-      featureRequests.createFeatureRequest(app, creatorId, title, description, function (err, results) {
+      featureRequests.createFeatureRequest(app, creatorId, title, description, function (err, result) {
         expect(err).to.be.null;
-        expect(results[0].creatorId).to.be.equal(creatorId);
-        expect(results[0].title).to.be.equal(title);
-        expect(results[0].description).to.be.equal(description);
+        expect(result.creatorId).to.be.equal(creatorId);
+        expect(result.title).to.be.equal(title);
+        expect(result.description).to.be.equal(description);
         done(err);
       });
     });
@@ -70,9 +70,9 @@ describe('Feature Requests', function () {
         , title       = 'Remember Password'
         , description = 'I would like this app to remember my password for me so that I can login quicker';
 
-      featureRequests.createFeatureRequest(app, creatorId, title, description, function (err, results) {
+      featureRequests.createFeatureRequest(app, creatorId, title, description, function (err, result) {
         expect(err).to.be.null;
-        expect(results[0].votes).to.be.equal(1);
+        expect(result.votes).to.be.equal(1);
         done(err);
       });
     });
@@ -84,13 +84,14 @@ describe('Feature Requests', function () {
   describe('getFeatureRequests', function () {
 
     beforeEach(function (done) {
-      resetFeatureRequestsCollectionWithData(testData, done)
+      resetFeatureRequestsCollectionWithData(testData, done);
     });
 
     it('returns a list of all feature requests for a specific app', function (done) {
+      var expectedResults = testData;
       featureRequests.getFeatureRequests(app, function (err, results) {
         expect(err).to.be.null;
-        expect(results).to.be.eql(testData);
+        expect(results).to.be.eql(expectedResults);
         done(err);
       });
     });
@@ -102,7 +103,7 @@ describe('Feature Requests', function () {
   describe('incrementFeatureRequestVoteCount', function () {
 
     beforeEach(function (done) {
-      resetFeatureRequestsCollectionWithData(testData, done)
+      resetFeatureRequestsCollectionWithData(testData, done);
     });
 
     it('increments the vote count for a specific feature request by 1', function (done) {
@@ -161,7 +162,7 @@ function resetFeatureRequestsCollectionWithData(data, callback) {
 
 
 //--------------------------------------------------------------------------
-// Data
+// Feature Request Test Data
 
 var testData = [
   {
@@ -182,7 +183,7 @@ var testData = [
     _id         : 2,
     creatorId   : 2,
     title       : "No Ads",
-    description : "You don't want to ruin it with ads, because adds aren't cool. You know what's cool? A billion dollars",
+    description : "You don't want to ruin it with ads, because adds aren't cool.",
     votes       : 57
   },
   {
