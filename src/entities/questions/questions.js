@@ -17,8 +17,9 @@ module.exports = function Questions(db) {
         noCount  : 0
       };
 
-      questionsCollection.insert(questionDoc, { w: 1 }, function (err, result) {
-        callback(err, result);
+      questionsCollection.insert(questionDoc, { w: 1 }, function (err, results) {
+        var question = results[0];
+        callback(err, question);
       });
     });
   }
@@ -32,8 +33,8 @@ module.exports = function Questions(db) {
         return;
       }
 
-      feedbackCollection.find().toArray(function (err, feedback) {
-        callback(err, feedback);
+      questionsCollection.find().toArray(function (err, questions) {
+        callback(err, questions);
       });
     });
   }
