@@ -1,8 +1,0 @@
-////////////////////////////////////////////////////////////////////////////
-//                index.js for the feature_requests module                //
-////////////////////////////////////////////////////////////////////////////
-
-var db              = require('../db')
-  , FeatureRequests = require('./feature_requests');
-
-module.exports = new FeatureRequests(db);
