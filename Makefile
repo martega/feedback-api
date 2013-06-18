@@ -12,9 +12,6 @@ test: node_modules $(CONFIG_FILE)
 test-nyan: node_modules $(CONFIG_FILE)
 	@export ENVIRONMENT=test; $(TEST_FILES) | xargs $(MOCHA) -R nyan
 
-test-md: node_modules $(CONFIG_FILE)
-	@export ENVIRONMENT=test; $(TEST_FILES) | xargs $(MOCHA) -R markdown > spec.md
-
 run: node_modules $(CONFIG_FILE)
 	@ENVIRONMENT=local node ./src/main.js
 
