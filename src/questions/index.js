@@ -8,5 +8,5 @@ var express        = require('express')
 
 var questionApi = module.exports = express();
 
-questionApi.get('/:app/questions', getQuestions);
-questionApi.post('/:app/questions', createQuestion);
+questionApi.get('/:app/:platform/questions', getQuestions);
+questionApi.post('/:app/:platform/questions', createQuestion);

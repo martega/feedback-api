@@ -12,7 +12,8 @@ var expect    = require('chai').expect
 // The fake application name to use in these tests and its corresponding
 // questions mongo collection.
 
-var app = 'fake_app'
+var app      = 'fake_app'
+  , platform = 'fake_platform'
   , questionsCollection;
 
 
@@ -64,7 +65,7 @@ describe('Questions', function () {
     it('creates a question record with the correct question text', function (done) {
       var questionText = 'Does the checkout section need more work?';
 
-      questions.createQuestion(app, questionText, function (err, question) {
+      questions.createQuestion(app, platform, questionText, function (err, question) {
         expect(err).to.be.null;
         expect(question.question).to.be.equal(questionText);
         done();
@@ -74,7 +75,7 @@ describe('Questions', function () {
     it('sets the number of yes and no votes to 0 when the question is first created', function (done) {
       var questionText = 'Should we add a share to facebook button?';
 
-      questions.createQuestion(app, questionText, function (err, question) {
+      questions.createQuestion(app, platform, questionText, function (err, question) {
         expect(err).to.be.null;
         expect(question.yesCount).to.be.equal(0);
         expect(question.noCount).to.be.equal(0);
@@ -94,7 +95,7 @@ describe('Questions', function () {
 
     it('returns a list of all questions for a specific app', function (done) {
       var expectedResults = testData;
-      questions.getQuestions(app, function (err, results) {
+      questions.getQuestions(app, platform, function (err, results) {
         expect(err).to.be.null;
         expect(results).to.be.eql(expectedResults);
         done();
@@ -124,7 +125,7 @@ describe('Questions', function () {
         , questionId      = testData[i]._id
         , initialYesCount = testData[i].yesCount;
 
-      questions.incrementYesCountForQuestion(app, questionId, function (err, question) {
+      questions.incrementYesCountForQuestion(app, platform, questionId, function (err, question) {
         expect(err).to.be.null;
         expect(question.yesCount).to.be.equal(initialYesCount + 1);
         done();
@@ -146,7 +147,7 @@ describe('Questions', function () {
         , questionId      = testData[i]._id
         , initialNoCount = testData[i].noCount;
 
-      questions.incrementNoCountForQuestion(app, questionId, function (err, question) {
+      questions.incrementNoCountForQuestion(app, platform, questionId, function (err, question) {
         expect(err).to.be.null;
         expect(question.noCount).to.be.equal(initialNoCount + 1);
         done();
@@ -164,7 +165,8 @@ describe('Questions', function () {
 
 function setupQuestionsCollection(callback) {
   try {
-    db.collection(app + '.questions', function (err, collection) {
+    var collectionName = app + '.' + platform + '.questions';
+    db.collection(collectionName, function (err, collection) {
       if (err) callback(err);
       questionsCollection = collection;
       questionsCollection.remove(function (err) {

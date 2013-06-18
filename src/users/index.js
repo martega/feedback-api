@@ -8,5 +8,5 @@ var express    = require('express')
 
 var userApi = module.exports = express();
 
-userApi.get('/:app/users/:userId', getUser);
-userApi.post('/:app/users', createUser);
+userApi.get('/:app/:platform/users/:userId', getUser);
+userApi.post('/:app/:platform/users', createUser);

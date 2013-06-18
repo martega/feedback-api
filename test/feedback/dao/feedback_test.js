@@ -12,7 +12,8 @@ var expect   = require('chai').expect
 // The fake application name to use in these tests and its corresponding
 // feedback mongo collection.
 
-var app = 'fake_app'
+var app      = 'fake_app'
+  , platform = 'fake_platform'
   , feedbackCollection;
 
 
@@ -56,7 +57,7 @@ describe('Feedback', function () {
         , score   = 5
         , comment = 'This app is perfect! I use it everyday!';
 
-      feedback.createFeedback(app, userId, score, comment, function (err, result) {
+      feedback.createFeedback(app, platform, userId, score, comment, function (err, result) {
         expect(err).to.be.null;
         expect(result.userId).to.be.equal(userId);
         expect(result.score).to.be.equal(score);
@@ -77,7 +78,7 @@ describe('Feedback', function () {
 
     it('returns a list of all feedback for a specific app', function (done) {
       var expectedResults = testData;
-      feedback.getFeedback(app, function (err, results) {
+      feedback.getFeedback(app, platform, function (err, results) {
         expect(err).to.be.null;
         expect(results).to.be.eql(expectedResults);
         done()
@@ -103,7 +104,7 @@ describe('Feedback', function () {
         5: 5
       };
 
-      feedback.getFeedbackHistogram(app, function (err, histogram) {
+      feedback.getFeedbackHistogram(app, platform, function (err, histogram) {
         expect(err).to.be.null;
         expect(histogram).to.be.eql(expectedHistogram);
         done();
@@ -123,7 +124,8 @@ describe('Feedback', function () {
 
 function setupFeedbackCollection(callback) {
   try {
-    db.collection(app + '.feedback', function (err, collection) {
+    var collectionName = app + '.' + platform + '.feedback';
+    db.collection(collectionName, function (err, collection) {
       if (err) callback(err);
       feedbackCollection = collection;
       feedbackCollection.remove(function (err) {

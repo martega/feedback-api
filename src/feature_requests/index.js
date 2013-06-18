@@ -8,5 +8,5 @@ var express              = require('express')
 
 var featureRequestApi = module.exports = express();
 
-featureRequestApi.get('/:app/feature_requests', getFeatureRequests);
-featureRequestApi.post('/:app/feature_requests', createFeatureRequest);
+featureRequestApi.get('/:app/:platform/feature_requests', getFeatureRequests);
+featureRequestApi.post('/:app/:platform/feature_requests', createFeatureRequest);

@@ -9,6 +9,6 @@ var express              = require('express')
 
 var feedbackApi = module.exports = express();
 
-feedbackApi.get('/:app/feedback', getFeedback);
-feedbackApi.post('/:app/feedback', createFeedback);
-feedbackApi.get('/:app/feedback/histogram', getFeedbackHistogram);
+feedbackApi.get('/:app/:platform/feedback', getFeedback);
+feedbackApi.post('/:app/:platform/feedback', createFeedback);
+feedbackApi.get('/:app/:platform/feedback/histogram', getFeedbackHistogram);
