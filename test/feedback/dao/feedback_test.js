@@ -3,8 +3,8 @@
 ////////////////////////////////////////////////////////////////////////////
 
 var expect   = require('chai').expect
-  , db       = require('../../../src/db')
-  , Feedback = require('../../../src/feedback/dao/feedback')
+  , db       = require('db')
+  , Feedback = require('feedback/dao/feedback')
   , feedback = new Feedback(db);
 
 

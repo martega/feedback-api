@@ -2,7 +2,7 @@
 //                    index.js for the feedback module                    //
 ////////////////////////////////////////////////////////////////////////////
 
-var db       = require('../../db')
+var db       = require('db')
   , Feedback = require('./feedback');
 
 module.exports = new Feedback(db);

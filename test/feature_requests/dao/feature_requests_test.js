@@ -3,8 +3,8 @@
 ////////////////////////////////////////////////////////////////////////////
 
 var expect          = require('chai').expect
-  , db              = require('../../../src/db')
-  , FeatureRequests = require('../../../src/feature_requests/dao/feature_requests')
+  , db              = require('db')
+  , FeatureRequests = require('feature_requests/dao/feature_requests')
   , featureRequests = new FeatureRequests(db);
 
 
@@ -140,7 +140,6 @@ function setupFeatureRequestsCollection(callback) {
       });
     });
   } catch (e) {
-    console.log('wat', e);
     setTimeout(function () {
       setupFeatureRequestsCollection(callback)
     }, 10);

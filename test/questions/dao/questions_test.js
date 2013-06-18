@@ -3,8 +3,8 @@
 ////////////////////////////////////////////////////////////////////////////
 
 var expect    = require('chai').expect
-  , db        = require('../../../src/db')
-  , Questions = require('../../../src/questions/dao/questions')
+  , db        = require('db')
+  , Questions = require('questions/dao/questions')
   , questions = new Questions(db);
 
 

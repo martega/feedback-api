@@ -2,8 +2,8 @@
 //                       index.js for the db module                       //
 ////////////////////////////////////////////////////////////////////////////
 
-var config   = require('../../config')
-  , eventBus = require('../event_bus')
+var config   = require('config')
+  , eventBus = require('event_bus')
   , mongodb  = require('mongodb')
   , Server   = mongodb.Server
   , Db       = mongodb.Db;

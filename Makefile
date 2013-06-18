@@ -7,13 +7,19 @@ TEST_FILES  = find ./test -name '*.js'
 CONFIG_FILE = ./config/index.js
 
 test: node_modules $(CONFIG_FILE)
-	@export ENVIRONMENT=test; $(TEST_FILES) | xargs $(MOCHA) -R spec
+	@export ENVIRONMENT=test NODE_PATH=.:src; $(TEST_FILES) | xargs $(MOCHA) -R spec
 
 test-nyan: node_modules $(CONFIG_FILE)
-	@export ENVIRONMENT=test; $(TEST_FILES) | xargs $(MOCHA) -R nyan
+	@export ENVIRONMENT=test NODE_PATH=.:src; $(TEST_FILES) | xargs $(MOCHA) -R nyan
+
+test-cov: node_modules
+	@./bin/jscoverage src src-cov;
+	@-export ENVIRONMENT=test NODE_PATH='.:src-cov'; $(TEST_FILES) | xargs $(MOCHA) -R html-cov > test_coverage.html;
+	@rm -rf src-cov;
+	@open test_coverage.html;
 
 run: node_modules $(CONFIG_FILE)
-	@ENVIRONMENT=local node ./src/main.js
+	@ENVIRONMENT=local NODE_PATH=.:src node ./src/main.js
 
 node_modules:
 	@npm install
@@ -29,7 +35,8 @@ $(CONFIG_FILE):
 	@make decrypt-config
 
 clean:
-	@rm -rf node_modules
+	@-rm -rf node_modules
+	@-rm test_coverage.html
 
 
-.PHONY: run test test-md clean encrypt-config decrypt-config
+.PHONY: run test test-nyan test-cov clean encrypt-config decrypt-config
