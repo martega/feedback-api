@@ -12,9 +12,9 @@ var expect          = require('chai').expect
 // The fake application name to use in these tests and its corresponding
 // feature request mongo collection.
 
-var app      = 'fake_app'
-  , platform = 'fake_platform'
+var app = { name: 'fake_app', platform: 'fake_platform' }
   , featureRequestsCollection;
+
 
 
 
@@ -57,7 +57,7 @@ describe('Feature Requests', function () {
         , title       = 'Update UI'
         , description = 'Make the UI more modern!';
 
-      featureRequests.createFeatureRequest(app, platform, creatorId, title, description, function (err, result) {
+      featureRequests.createFeatureRequest(app, creatorId, title, description, function (err, result) {
         expect(err).to.be.null;
         expect(result.creatorId).to.be.equal(creatorId);
         expect(result.title).to.be.equal(title);
@@ -71,7 +71,7 @@ describe('Feature Requests', function () {
         , title       = 'Remember Password'
         , description = 'I would like this app to remember my password for me so that I can login quicker';
 
-      featureRequests.createFeatureRequest(app, platform, creatorId, title, description, function (err, result) {
+      featureRequests.createFeatureRequest(app, creatorId, title, description, function (err, result) {
         expect(err).to.be.null;
         expect(result.votes).to.be.equal(1);
         done(err);
@@ -90,7 +90,7 @@ describe('Feature Requests', function () {
 
     it('returns a list of all feature requests for a specific app', function (done) {
       var expectedResults = testData;
-      featureRequests.getFeatureRequests(app, platform, function (err, results) {
+      featureRequests.getFeatureRequests(app, function (err, results) {
         expect(err).to.be.null;
         expect(results).to.be.eql(expectedResults);
         done(err);
@@ -112,7 +112,7 @@ describe('Feature Requests', function () {
         , featureRequestId = testData[testDataIndex]._id
         , initialVotes     = testData[testDataIndex].votes;
 
-      featureRequests.incrementFeatureRequestVoteCount(app, platform, featureRequestId, function (err, result) {
+      featureRequests.incrementFeatureRequestVoteCount(app, featureRequestId, function (err, result) {
         expect(result.votes).to.be.equal(initialVotes + 1);
         done(err);
       });
@@ -131,7 +131,7 @@ describe('Feature Requests', function () {
 
 function setupFeatureRequestsCollection(callback) {
   try {
-    var collectionName = app + '.' + platform + '.feature_requests';
+    var collectionName = app.name + '.' + app.platform + '.feature_requests';
     db.collection(collectionName, function (err, collection) {
       if (err) callback(err);
       featureRequestsCollection = collection;
@@ -140,6 +140,7 @@ function setupFeatureRequestsCollection(callback) {
       });
     });
   } catch (e) {
+    console.log('wat', e);
     setTimeout(function () {
       setupFeatureRequestsCollection(callback)
     }, 10);

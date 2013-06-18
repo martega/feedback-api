@@ -4,8 +4,8 @@
 
 module.exports = function Feedback(db) {
 
-  function createFeedback(app, platform, userId, score, comment, callback) {
-    var collectionName = app + '.' + platform + '.feedback';
+  function createFeedback(app, userId, score, comment, callback) {
+    var collectionName = app.name + '.' + app.platform + '.feedback';
     db.collection(collectionName, function (err, feedbackCollection) {
       if (err) {
         callback(err);
@@ -15,7 +15,9 @@ module.exports = function Feedback(db) {
       var feedback = {
         userId  : userId,
         score   : score,
-        comment : comment
+        comment : comment,
+        version : app.version,
+        page    : app.page
       };
 
       feedbackCollection.insert(feedback, { w: 1 }, function (err, results) {
@@ -27,8 +29,8 @@ module.exports = function Feedback(db) {
 
   //------------------------------------------------------------------------
 
-  function getFeedback(app, platform, callback) {
-    var collectionName = app + '.' + platform + '.feedback';
+  function getFeedback(app, callback) {
+    var collectionName = app.name + '.' + app.platform + '.feedback';
     db.collection(collectionName, function (err, feedbackCollection) {
       if (err) {
         callback(err);
@@ -43,8 +45,8 @@ module.exports = function Feedback(db) {
 
   //------------------------------------------------------------------------
 
-  function getFeedbackHistogram(app, platform, callback) {
-    var collectionName = app + '.' + platform + '.feedback';
+  function getFeedbackHistogram(app, callback) {
+    var collectionName = app.name + '.' + app.platform + '.feedback';
     db.collection(collectionName, function (err, feedbackCollection) {
       if (err) {
         callback(err);

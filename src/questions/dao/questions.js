@@ -4,8 +4,8 @@
 
 module.exports = function Questions(db) {
 
-  function createQuestion(app, platform, question, callback) {
-    var collectionName = app + '.' + platform + '.questions';
+  function createQuestion(app, question, callback) {
+    var collectionName = app.name + '.' + app.platform + '.questions';
     db.collection(collectionName, function (err, questionsCollection) {
       if (err) {
         callback(err);
@@ -27,8 +27,8 @@ module.exports = function Questions(db) {
 
   //------------------------------------------------------------------------
 
-  function getQuestions(app, platform, callback) {
-    var collectionName = app + '.' + platform + '.questions';
+  function getQuestions(app, callback) {
+    var collectionName = app.name + '.' + app.platform + '.questions';
     db.collection(collectionName, function (err, questionsCollection) {
       if (err) {
         callback(err);
@@ -43,14 +43,14 @@ module.exports = function Questions(db) {
 
   //------------------------------------------------------------------------
 
-  function getUnansweredQuestionsForUser(app, platform, userId, callback) {
+  function getUnansweredQuestionsForUser(app, userId, callback) {
     // TODO
   }
 
   //------------------------------------------------------------------------
 
-  function incrementYesCountForQuestion(app, platform, questionId, callback) {
-    var collectionName = app + '.' + platform + '.questions';
+  function incrementYesCountForQuestion(app, questionId, callback) {
+    var collectionName = app.name + '.' + app.platform + '.questions';
     db.collection(collectionName, function (err, questionsCollection) {
       if (err) {
         callback(err);
@@ -70,8 +70,8 @@ module.exports = function Questions(db) {
 
   //------------------------------------------------------------------------
 
-  function incrementNoCountForQuestion(app, platform, questionId, callback) {
-    var collectionName = app + '.' + platform + '.questions';
+  function incrementNoCountForQuestion(app, questionId, callback) {
+    var collectionName = app.name + '.' + app.platform + '.questions';
     db.collection(collectionName, function (err, questionsCollection) {
       if (err) {
         callback(err);

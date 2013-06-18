@@ -6,8 +6,8 @@ module.exports = Users;
 
 function Users(db) {
 
-  function createUser(app, platform) {
-    var collectionName = app + '.' + platform + '.users';
+  function createUser(app) {
+    var collectionName = app.name + '.' + app.platform + '.users';
     db.collection(collectionName, function (err, usersCollection) {
       if (err) {
         callback(err);
@@ -26,7 +26,7 @@ function Users(db) {
 
   //------------------------------------------------------------------------
 
-  function getUser(app, platform, userId) {
+  function getUser(app, userId) {
     // TODO
   }
 

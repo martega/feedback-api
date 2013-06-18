@@ -12,8 +12,8 @@ var INITIAL_VOTES = 1;
 
 module.exports = function FeatureRequests(db) {
 
-  function createFeatureRequest(app, platform, creatorId, title, description, callback) {
-    var collectionName = app + '.' + platform + '.feature_requests';
+  function createFeatureRequest(app, creatorId, title, description, callback) {
+    var collectionName = app.name + '.' + app.platform + '.feature_requests';
     db.collection(collectionName, function (err, featureRequestCollection) {
       if (err) {
         callback(err);
@@ -36,8 +36,8 @@ module.exports = function FeatureRequests(db) {
 
   //------------------------------------------------------------------------
 
-  function getFeatureRequests(app, platform, callback) {
-    var collectionName = app + '.' + platform + '.feature_requests';
+  function getFeatureRequests(app, callback) {
+    var collectionName = app.name + '.' + app.platform + '.feature_requests';
     db.collection(collectionName, function (err, featureRequestCollection) {
       if (err) {
         callback(err);
@@ -52,8 +52,8 @@ module.exports = function FeatureRequests(db) {
 
   //------------------------------------------------------------------------
 
-  function incrementFeatureRequestVoteCount(app, platform, featureRequestId, callback) {
-    var collectionName = app + '.' + platform + '.feature_requests';
+  function incrementFeatureRequestVoteCount(app, featureRequestId, callback) {
+    var collectionName = app.name + '.' + app.platform + '.feature_requests';
     db.collection(collectionName, function (err, featureRequestCollection) {
       if (err) {
         callback(err);
