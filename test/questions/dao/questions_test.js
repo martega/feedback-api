@@ -120,7 +120,7 @@ describe('Questions', function () {
     });
 
     it('should increment the number of yes counts for a question by 1', function (done) {
-      var i                = 4
+      var i               = 3
         , questionId      = testData[i]._id
         , initialYesCount = testData[i].yesCount;
 
@@ -137,9 +137,21 @@ describe('Questions', function () {
 
   describe('incrementNoCountForQuestion', function () {
 
-    it('should do stuff');
-    it('should do stuff');
-    it('should do stuff');
+    beforeEach(function (done) {
+      resetQuestionsCollectionWithData(testData, done);
+    });
+
+    it('should increment the number of no counts for a question by 1', function (done) {
+      var i               = 4
+        , questionId      = testData[i]._id
+        , initialNoCount = testData[i].noCount;
+
+      questions.incrementNoCountForQuestion(app, questionId, function (err, question) {
+        expect(err).to.be.null;
+        expect(question.noCount).to.be.equal(initialNoCount + 1);
+        done();
+      });
+    });
 
   });
 

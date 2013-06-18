@@ -55,9 +55,11 @@ module.exports = function Questions(db) {
       }
 
       var query        = { _id: questionId }
-        , modification = { $inc: { yesCount: 1 } };
+        , sort         = [[ '_id', 'ascending' ]]
+        , modification = { $inc: { yesCount: 1 } }
+        , options      = { w: 1, new: true };
 
-      questionsCollection.findAndModify(query, modification, function (err, result) {
+      questionsCollection.findAndModify(query, sort, modification, options, function (err, result) {
         callback(err, result);
       });
     });
@@ -73,9 +75,11 @@ module.exports = function Questions(db) {
       }
 
       var query        = { _id: questionId }
-        , modification = { $inc: { noCount: 1 } };
+        , sort         = [[ '_id', 'ascending' ]]
+        , modification = { $inc: { noCount: 1 } }
+        , options      = { w: 1, new: true };
 
-      questionsCollection.findAndModify(query, modification, function (err, result) {
+      questionsCollection.findAndModify(query, sort, modification, options, function (err, result) {
         callback(err, result);
       });
     });
@@ -89,6 +93,6 @@ module.exports = function Questions(db) {
     getQuestions                  : getQuestions,
     getUnansweredQuestionsForUser : getUnansweredQuestionsForUser,
     incrementYesCountForQuestion  : incrementYesCountForQuestion,
-    incrementNoCountForQuestion  : incrementNoCountForQuestion
+    incrementNoCountForQuestion   : incrementNoCountForQuestion
   };
 };
