@@ -21,7 +21,7 @@ var app = { name: 'fake_app', platform: 'fake_platform' }
 //--------------------------------------------------------------------------
 // Tests
 
-describe('Feature Requests', function () {
+describe('Feature Requests Dao', function () {
 
   before(function (done) {
     setupFeatureRequestsCollection(done);

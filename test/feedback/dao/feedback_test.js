@@ -20,7 +20,7 @@ var app = { name: 'fake_app', platform: 'fake_platform' }
 //--------------------------------------------------------------------------
 // Tests
 
-describe('Feedback', function () {
+describe('Feedback Dao', function () {
 
   before(function (done) {
     setupFeedbackCollection(done);

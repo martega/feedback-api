@@ -2,8 +2,11 @@
 //                     index.js for the server module                     //
 ////////////////////////////////////////////////////////////////////////////
 
-var express = require('express')
-  , http    = require('http');
+var express       = require('express')
+  , http          = require('http')
+  , config        = require('config')
+  , Authenticator = require('authenticator')
+  , authenticator = new Authenticator(config.server.hmacKey);
 
 //--------------------------------------------------------------------------
 
@@ -27,14 +30,14 @@ function Server() {
 //--------------------------------------------------------------------------
 
 function addMiddleware(app) {
-  // TODO
+  app.use(express.bodyParser());
+  app.use(authenticator.authenticateRequest);
 }
 
 //--------------------------------------------------------------------------
 
 function addEndpoints(app) {
-  app.use(require('../feature_requests'));
-  app.use(require('../feedback'));
-  app.use(require('../questions'));
-  app.use(require('../users'));
+  app.use(require('feature_requests'));
+  app.use(require('feedback'));
+  app.use(require('users'));
 }
