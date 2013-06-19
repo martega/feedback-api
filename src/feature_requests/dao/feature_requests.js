@@ -24,7 +24,8 @@ module.exports = function FeatureRequests(db) {
         creatorId   : creatorId,
         title       : title,
         description : description,
-        votes       : INITIAL_VOTES
+        votes       : INITIAL_VOTES,
+        timestamp   : new Date()
       };
 
       featureRequestCollection.insert(featureRequest, { w: 1 }, function (err, results) {

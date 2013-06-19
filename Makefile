@@ -38,5 +38,4 @@ clean:
 	@-rm -rf node_modules
 	@-rm test_coverage.html
 
-
 .PHONY: run test test-nyan test-cov clean encrypt-config decrypt-config

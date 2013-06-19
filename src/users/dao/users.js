@@ -14,7 +14,7 @@ function Users(db) {
         return;
       }
 
-      var user = {};
+      var user = { timestamp: new Date() };
 
       usersCollection.insert(user, { w: 1 }, function (err, results) {
         var user = results[0];

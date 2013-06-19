@@ -13,11 +13,12 @@ module.exports = function Feedback(db) {
       }
 
       var feedback = {
-        userId  : userId,
-        score   : score,
-        comment : comment,
-        version : app.version,
-        page    : app.page
+        userId    : userId,
+        score     : score,
+        comment   : comment,
+        version   : app.version,
+        page      : app.page,
+        timestamp : new Date()
       };
 
       feedbackCollection.insert(feedback, { w: 1 }, function (err, results) {

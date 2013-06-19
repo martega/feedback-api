@@ -2,8 +2,7 @@
 //                  index.js for the create_user module                   //
 ////////////////////////////////////////////////////////////////////////////
 
-//--------------------------------------------------------------------------
-// exports
+var usersDao    = require('../dao')
+  , createUser = require('./create_user')(usersDao);
 
-module.exports = function () {
-};
+module.exports = createUser;

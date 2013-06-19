@@ -14,7 +14,7 @@ module.exports = function createFeedback(feedbackDao) {
 
     var userId  = req.body.userId
       , score   = req.body.score
-      , comment = req.body.score;
+      , comment = req.body.comment;
 
     feedbackDao.createFeedback(app, userId, score, comment, function (err, feedback) {
       if (err) {
