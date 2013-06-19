@@ -6,7 +6,7 @@ module.exports = Users;
 
 function Users(db) {
 
-  function createUser(app) {
+  function createUser(app, callback) {
     var collectionName = app.name + '.' + app.platform + '.users';
     db.collection(collectionName, function (err, usersCollection) {
       if (err) {
@@ -14,20 +14,13 @@ function Users(db) {
         return;
       }
 
-      var user = {
-        answeredQuestions: []
-      };
+      var user = {};
 
-      feedbackCollection.insert(user, { w: 1 }, function (err, result) {
-        callback(err, result);
+      feedbackCollection.insert(user, { w: 1 }, function (err, results) {
+        var user = results[0];
+        callback(err, user);
       });
     });
-  }
-
-  //------------------------------------------------------------------------
-
-  function getUser(app, userId) {
-    // TODO
   }
 
   //------------------------------------------------------------------------
@@ -35,6 +28,5 @@ function Users(db) {
 
   return {
     createUser : createUser,
-    getUser    : getUser
   };
 };
