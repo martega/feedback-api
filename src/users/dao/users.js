@@ -16,7 +16,7 @@ function Users(db) {
 
       var user = {};
 
-      feedbackCollection.insert(user, { w: 1 }, function (err, results) {
+      usersCollection.insert(user, { w: 1 }, function (err, results) {
         var user = results[0];
         callback(err, user);
       });
@@ -27,6 +27,6 @@ function Users(db) {
   // external interface
 
   return {
-    createUser : createUser,
+    createUser : createUser
   };
 };
