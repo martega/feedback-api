@@ -56,13 +56,15 @@ module.exports = function Feedback(db) {
       feedbackCollection.mapReduce(map, reduce, { out: { inline: 1 } }, function (err, results) {
         var histogram = {};
 
-        results.forEach(function (doc) {
-          var score = doc._id
-            , count = doc.value.count;
-          histogram[score] = count;
-        });
+        if (!err) {
+          results.forEach(function (doc) {
+            var score = doc._id
+              , count = doc.value.count;
+            histogram[score] = count;
+          });
+        }
 
-        callback(err, histogram);
+        callback(null, histogram);
       });
     });
 

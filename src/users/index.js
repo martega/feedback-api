@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 var express    = require('express')
-  , createUser = require('./get_users');
+  , createUser = require('./create_user');
 
 var userApi = module.exports = express();
 

@@ -1,0 +1,8 @@
+////////////////////////////////////////////////////////////////////////////
+//                index.js for the create_feedback module                 //
+////////////////////////////////////////////////////////////////////////////
+
+var feedbackDao    = require('../dao')
+  , createFeedback = require('./create_feedback')(feedbackDao);
+
+module.exports = createFeedback;
