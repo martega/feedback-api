@@ -47,7 +47,7 @@ module.exports = function createFeedback(feedbackDao, userDao) {
 
     userDao.checkUserExists(requestData.app, requestData.app.userId, function (err, userExists) {
       if (!userExists || err) {
-        problems.push("'" + requestData.app.userId + "'" + " is not a valid value for the userId parameter of the request body");
+        problems.push("'" + requestData.userId + "'" + " is not a valid value for the userId parameter of the request body");
       }
 
       var validationError;
