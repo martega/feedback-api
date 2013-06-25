@@ -30,6 +30,7 @@ function Server() {
 //--------------------------------------------------------------------------
 
 function addMiddleware(app) {
+  app.use(express.responseTime());
   app.use(express.bodyParser());
   app.use(authenticator.authenticateRequest);
 }
