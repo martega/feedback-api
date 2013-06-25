@@ -45,7 +45,7 @@ module.exports = function createFeedback(feedbackDao, userDao) {
     if (!requestData.app.page)     problems.push("the 'page' parameter is missing from the request body");
     if (!requestData.userId)       problems.push("the 'userId' parameter is missing from the request body");
 
-    userDao.checkUserExists(requestData.app, requestData.app.userId, function (err, userExists) {
+    userDao.checkUserExists(requestData.app, requestData.userId, function (err, userExists) {
       if (!userExists || err) {
         problems.push("the userId of '" + requestData.userId + "'" + " does not correspond to a known user");
       }

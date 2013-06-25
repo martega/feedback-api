@@ -2,10 +2,11 @@
 //                             users_test.js                              //
 ////////////////////////////////////////////////////////////////////////////
 
-var expect = require('chai').expect
-  , db     = require('db')
-  , Users  = require('users/dao/users')
-  , users  = new Users(db);
+var expect   = require('chai').expect
+  , db       = require('db')
+  , ObjectID = require('mongodb').BSONPure.ObjectID
+  , Users    = require('users/dao/users')
+  , users    = new Users(db);
 
 
 
@@ -131,6 +132,6 @@ function resetUsersCollectionWithData(data, callback) {
 var testData = [
   {
     timestamp: "2013-06-20T03:36:25.302Z",
-    _id: "51c278b93c75a342cf000002"
+    _id: ObjectID.createFromHexString("51c278b93c75a342cf000002")
   }
 ];

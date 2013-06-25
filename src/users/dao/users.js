@@ -2,6 +2,8 @@
 //                                users.js                                //
 ////////////////////////////////////////////////////////////////////////////
 
+var ObjectID = require('mongodb').BSONPure.ObjectID;
+
 module.exports = Users;
 
 function Users(db) {
@@ -33,8 +35,14 @@ function Users(db) {
         return;
       }
 
-      usersCollection.find({ _id: userId }).toArray(function (err, matches) {
-        var userExists = matches.length === 1;
+      try {
+        userId = ObjectID.createFromHexString(userId);
+      } catch (e) {
+        // invalid user id, the query should fail
+      }
+
+      usersCollection.findOne({ _id: userId }, function (err, match) {
+        var userExists = match !== null;
         callback(err, userExists);
       });
     });
