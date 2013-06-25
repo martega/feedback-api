@@ -2,7 +2,7 @@
 //                           create_feedback.js                           //
 ////////////////////////////////////////////////////////////////////////////
 
-module.exports = function createFeedback(feedbackDao, userDao) {
+module.exports = function createFeedback(feedbackDao, usersDao) {
 
   function serveRequest(req, res) {
     var requestData = parseRequest(req);
@@ -39,13 +39,11 @@ module.exports = function createFeedback(feedbackDao, userDao) {
   function validateRequestData(requestData, callback) {
     var problems = [];
 
-    if (!requestData.app.name)     problems.push("application name is not defined");
-    if (!requestData.app.platform) problems.push("application platform is not defined");
     if (!requestData.app.version)  problems.push("the 'version' parameter is missing from the request body");
     if (!requestData.app.page)     problems.push("the 'page' parameter is missing from the request body");
     if (!requestData.userId)       problems.push("the 'userId' parameter is missing from the request body");
 
-    userDao.checkUserExists(requestData.app, requestData.userId, function (err, userExists) {
+    usersDao.checkUserExists(requestData.app, requestData.userId, function (err, userExists) {
       if (!userExists || err) {
         problems.push("the userId of '" + requestData.userId + "'" + " does not correspond to a known user");
       }

@@ -3,7 +3,8 @@
 ////////////////////////////////////////////////////////////////////////////
 
 var featureRequestDao    = require('../dao')
-  , createFeatureRequest = require('./create_feature_request')(featureRequestDao);
+  , usersDao              = require('../../users/dao')
+  , createFeatureRequest = require('./create_feature_request')(featureRequestDao, usersDao);
 
 module.exports = createFeatureRequest;
 

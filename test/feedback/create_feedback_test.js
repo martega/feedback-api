@@ -12,7 +12,7 @@ var feedbackDao = {
   }
 };
 
-var userDao = {
+var usersDao = {
   checkUserExists: function (app, userId, callback) {
     var err        = null
       , userExists = true;
@@ -20,7 +20,7 @@ var userDao = {
   }
 };
 
-var userDaoEmpty = {
+var usersDaoEmpty = {
   checkUserExists: function (app, userId, callback) {
     var err        = null
       , userExists = false;
@@ -35,7 +35,7 @@ var userDaoEmpty = {
 describe('Create Feedback API Call', function () {
 
   beforeEach(function () {
-    createFeedback = require('feedback/create_feedback/create_feedback')(feedbackDao, userDao);
+    createFeedback = require('feedback/create_feedback/create_feedback')(feedbackDao, usersDao);
   });
 
   //------------------------------------------------------------------------
@@ -48,37 +48,9 @@ describe('Create Feedback API Call', function () {
 
   });
 
-  describe('response codes', function (done) {
+  describe('response codes', function () {
 
-    it('sends a 400 status code if the application name is missing', function () {
-      var req = {};
-      req.params = { platform: 'ios' };
-      req.body   = { version: '3.4.2', page: 'cafeteria menu', userId: '51', score: 4, comment: 'Nice!' };
-
-      var res = {
-        send: function (statusCode, data) {
-          expect(statusCode).to.be.equal(400);
-        }
-      };
-
-      createFeedback(req, res);
-    });
-
-    it('sends a 400 status code if the application platform is missing', function () {
-      var req = {};
-      req.params = { app: 'Employee App' };
-      req.body   = { version: '3.4.2', page: 'cafeteria menu', userId: '51', score: 4, comment: 'Nice!' };
-
-      var res = {
-        send: function (statusCode, data) {
-          expect(statusCode).to.be.equal(400);
-        }
-      };
-
-      createFeedback(req, res);
-    });
-
-    it('sends a 400 status code if the application version is missing', function () {
+    it('sends a 400 status code if the application version is missing', function (done) {
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
       req.body   = { page: 'cafeteria menu', userId: '51', score: 4, comment: 'Nice!' };
@@ -86,13 +58,14 @@ describe('Create Feedback API Call', function () {
       var res = {
         send: function (statusCode, data) {
           expect(statusCode).to.be.equal(400);
+          done();
         }
       };
 
       createFeedback(req, res);
     });
 
-    it('sends a 400 status code if the application page is missing', function () {
+    it('sends a 400 status code if the application page is missing', function (done) {
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
       req.body   = { version: '3.4.2', userId: '51', score: 4, comment: 'Nice!' };
@@ -100,13 +73,14 @@ describe('Create Feedback API Call', function () {
       var res = {
         send: function (statusCode, data) {
           expect(statusCode).to.be.equal(400);
+          done()
         }
       };
 
       createFeedback(req, res);
     });
 
-    it('sends a 400 status code if the user id is missing', function () {
+    it('sends a 400 status code if the user id is missing', function (done) {
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
       req.body   = { version: '3.4.2', page: 'cafeteria menu', score: 4, comment: 'Nice!' };
@@ -114,14 +88,15 @@ describe('Create Feedback API Call', function () {
       var res = {
         send: function (statusCode, data) {
           expect(statusCode).to.be.equal(400);
+          done();
         }
       };
 
       createFeedback(req, res);
     });
 
-    it('sends a 400 status code if the user id does not correspond to a valid user', function () {
-      createFeedback = require('feedback/create_feedback/create_feedback')(feedbackDao, userDaoEmpty);
+    it('sends a 400 status code if the user id does not correspond to a valid user', function (done) {
+      createFeedback = require('feedback/create_feedback/create_feedback')(feedbackDao, usersDaoEmpty);
 
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
@@ -130,13 +105,14 @@ describe('Create Feedback API Call', function () {
       var res = {
         send: function (statusCode, data) {
           expect(statusCode).to.be.equal(400);
+          done();
         }
       };
 
       createFeedback(req, res);
     });
 
-    it('sends a 200 status code if everything is fine', function () {
+    it('sends a 200 status code if everything is fine', function (done) {
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
       req.body   = { version: '3.4.2', page: 'cafeteria menu', userId: '51', score: 4, comment: 'Nice!' };
@@ -144,6 +120,7 @@ describe('Create Feedback API Call', function () {
       var res = {
         send: function (statusCode, data) {
           expect(statusCode).to.be.equal(200);
+          done();
         }
       };
 
