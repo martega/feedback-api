@@ -35,16 +35,52 @@ describe('Users Dao', function () {
       expect(typeof users.createUser).to.be.equal('function');
     });
 
+    it('returns an object with a checkUserExists function', function () {
+      var users = new Users();
+      expect(typeof users.checkUserExists).to.be.equal('function');
+    });
+
   });
 
   //------------------------------------------------------------------------
 
   describe('createUser', function () {
 
+    beforeEach(function (done) {
+      resetUsersCollectionWithData(testData, done);
+    });
+
     it('creates a user record and returns the user id', function (done) {
       users.createUser(app, function (err, user) {
         expect(err).to.be.null;
         expect(user._id).to.not.be.undefined;
+        done();
+      });
+    });
+
+  });
+
+
+  //------------------------------------------------------------------------
+
+  describe('checkUserExists', function () {
+
+    it('returns true if there is a user document with the user id passed in', function (done) {
+      var userId = "51c278b93c75a342cf000002";
+
+      users.checkUserExists(app, userId, function (err, userExists) {
+        expect(err).to.be.null;
+        expect(userExists).to.be.true
+        done();
+      });
+    });
+
+    it('returns false if user id does not correspond to a user document', function (done) {
+      var userId = "not a real user id";
+
+      users.checkUserExists(app, userId, function (err, userExists) {
+        expect(err).to.be.null;
+        expect(userExists).to.be.false;
         done();
       });
     });
@@ -89,3 +125,12 @@ function resetUsersCollectionWithData(data, callback) {
     });
   });
 }
+
+//--------------------------------------------------------------------------
+
+var testData = [
+  {
+    timestamp: "2013-06-20T03:36:25.302Z",
+    _id: "51c278b93c75a342cf000002"
+  }
+];

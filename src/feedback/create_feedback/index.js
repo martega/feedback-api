@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 var feedbackDao    = require('../dao')
-  , createFeedback = require('./create_feedback')(feedbackDao);
+  , userDao        = require('../../users/dao')
+  , createFeedback = require('./create_feedback')(feedbackDao, userDao);
 
 module.exports = createFeedback;
