@@ -32,7 +32,14 @@ function Server() {
 function addMiddleware(app) {
   app.use(express.responseTime());
   app.use(express.bodyParser());
-  app.use(authenticator.authenticateRequest);
+
+  if (app.get('env') === 'dev') {
+    app.use(express.logger('dev'));
+  }
+
+  if (app.get('env') === 'production') {
+    app.use(authenticator.authenticateRequest);
+  }
 }
 
 //--------------------------------------------------------------------------

@@ -18,8 +18,11 @@ test-cov: node_modules
 	@rm -rf src-cov;
 	@open test_coverage.html;
 
-run: node_modules $(CONFIG_FILE)
-	@NODE_ENV=local NODE_PATH=.:src node ./src/main.js
+dev: node_modules $(CONFIG_FILE)
+	@NODE_ENV=dev NODE_PATH=.:src node ./src/main.js
+
+production: node_modules $(CONFIG_FILE)
+	@NODE_ENV=production NODE_PATH=.:src node ./src/main.js
 
 node_modules:
 	@npm install
