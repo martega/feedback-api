@@ -41,9 +41,9 @@ describe('Feature Requests Dao', function () {
       expect(typeof featureRequests.getFeatureRequests).to.be.equal('function');
     });
 
-    it('returns an object with an incrementFeatureRequestVoteCount function', function () {
+    it('returns an object with an incrementVoteCount function', function () {
       var featureRequests = new FeatureRequests();
-      expect(typeof featureRequests.incrementFeatureRequestVoteCount).to.be.equal('function');
+      expect(typeof featureRequests.incrementVoteCount).to.be.equal('function');
     });
 
   });
@@ -101,7 +101,7 @@ describe('Feature Requests Dao', function () {
 
   //------------------------------------------------------------------------
 
-  describe('incrementFeatureRequestVoteCount', function () {
+  describe('incrementVoteCount', function () {
 
     beforeEach(function (done) {
       resetFeatureRequestsCollectionWithData(testData, done);
@@ -112,7 +112,7 @@ describe('Feature Requests Dao', function () {
         , featureRequestId = testData[testDataIndex]._id
         , initialVotes     = testData[testDataIndex].votes;
 
-      featureRequests.incrementFeatureRequestVoteCount(app, featureRequestId, function (err, result) {
+      featureRequests.incrementVoteCount(app, featureRequestId, function (err, result) {
         expect(result.votes).to.be.equal(initialVotes + 1);
         done(err);
       });

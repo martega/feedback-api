@@ -53,7 +53,7 @@ module.exports = function FeatureRequests(db) {
 
   //------------------------------------------------------------------------
 
-  function incrementFeatureRequestVoteCount(app, featureRequestId, callback) {
+  function incrementVoteCount(app, featureRequestId, callback) {
     var collectionName = app.name + '.' + app.platform + '.feature_requests';
     db.collection(collectionName, function (err, featureRequestCollection) {
       if (err) {
@@ -76,8 +76,8 @@ module.exports = function FeatureRequests(db) {
   // external interface
 
   return {
-    createFeatureRequest             : createFeatureRequest,
-    getFeatureRequests               : getFeatureRequests,
-    incrementFeatureRequestVoteCount : incrementFeatureRequestVoteCount
+    createFeatureRequest : createFeatureRequest,
+    getFeatureRequests   : getFeatureRequests,
+    incrementVoteCount   : incrementVoteCount
   };
 };
