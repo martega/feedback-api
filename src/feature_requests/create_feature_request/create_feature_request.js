@@ -66,7 +66,7 @@ module.exports = function createFeatureRequest(featureRequestDao, usersDao) {
     var app         = requestData.app
       , creatorId   = requestData.creatorId
       , title       = requestData.title
-      , description = requestData.comment;
+      , description = requestData.description;
 
     featureRequestDao.createFeatureRequest(app, creatorId, title, description, function (err, featureRequest) {
       if (err) {

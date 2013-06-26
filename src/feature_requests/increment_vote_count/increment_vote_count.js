@@ -5,8 +5,6 @@
 module.exports = function incrementVoteCount(featureRequestDao) {
 
   function serveRequest(req, res) {
-
-    var requestData = parseRequest(req);
     var app = {};
 
     app.name = req.params.app;

@@ -2,6 +2,8 @@
 //                          feature_requests.js                           //
 ////////////////////////////////////////////////////////////////////////////
 
+var ObjectID = require('mongodb').BSONPure.ObjectID;
+
 // Initially, feature requests start out with one vote because the feature
 // request creator is always assumed to vote for the feature they just
 // created.
@@ -60,6 +62,8 @@ module.exports = function FeatureRequests(db) {
         callback(err);
         return;
       }
+
+      featureRequestId = ObjectID.createFromHexString(featureRequestId);
 
       var query        = { _id: featureRequestId }
         , sort         = [[ '_id', 'ascending' ]]
