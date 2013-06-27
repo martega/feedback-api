@@ -63,7 +63,11 @@ module.exports = function FeatureRequests(db) {
         return;
       }
 
-      featureRequestId = ObjectID.createFromHexString(featureRequestId);
+      try {
+        featureRequestId = ObjectID.createFromHexString(featureRequestId);
+      } catch (e) {
+        // featureRequestId is not a standard object id
+      }
 
       var query        = { _id: featureRequestId }
         , sort         = [[ '_id', 'ascending' ]]

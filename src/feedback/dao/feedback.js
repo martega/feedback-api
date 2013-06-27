@@ -30,7 +30,7 @@ module.exports = function Feedback(db) {
 
   //------------------------------------------------------------------------
 
-  function getFeedback(app, callback) {
+  function getFeedback(app, filters, callback) {
     var collectionName = app.name + '.' + app.platform + '.feedback';
     db.collection(collectionName, function (err, feedbackCollection) {
       if (err) {
@@ -38,7 +38,8 @@ module.exports = function Feedback(db) {
         return;
       }
 
-      feedbackCollection.find().toArray(function (err, feedback) {
+      var query = constructGetFeedbackQuery(filters);
+      feedbackCollection.find(query).toArray(function (err, feedback) {
         callback(err, feedback);
       });
     });
@@ -82,6 +83,50 @@ module.exports = function Feedback(db) {
     }
   }
 
+
+  //------------------------------------------------------------------------
+
+  function constructGetFeedbackQuery(filters) {
+    var query = {};
+
+    if (!filters) {
+      return query;
+    }
+
+    if (filters.page !== undefined) {
+      query.page = filters.page;
+    }
+
+    if (filters.version !== undefined) {
+      query.version = filters.version;
+    }
+
+    if (filters.minScore !== undefined) {
+      if (!query.score) query.score = {};
+      query.score['$gte'] = filters.minScore;
+    }
+
+    if (filters.maxScore !== undefined) {
+      if (!query.score) query.score = {};
+      query.score['$lte'] = filters.maxScore;
+    }
+
+    if (filters.score !== undefined) {
+      query.score = filters.score;
+    }
+
+    if (filters.startDate !== undefined) {
+      if (!query.timestamp) query.timestamp = {};
+      query.timestamp['$gte'] = filters.startDate;
+    }
+
+    if (filters.endDate !== undefined) {
+      if (!query.timestamp) query.timestamp = {};
+      query.timestamp['$lte'] = filters.endDate;
+    }
+
+    return query;
+  }
 
   //------------------------------------------------------------------------
   // external interface

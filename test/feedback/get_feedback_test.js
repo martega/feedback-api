@@ -1,41 +1,24 @@
 ////////////////////////////////////////////////////////////////////////////
-//                        create_feedback_test.js                         //
+//                          get_feedback_test.js                          //
 ////////////////////////////////////////////////////////////////////////////
 
 var expect = require('chai').expect
   , sinon  = require('sinon')
-  , createFeedback;
+  , getFeedback;
 
 var feedbackDao = {
-  createFeedback: function (app, userId, score, comment, callback) {
+  getFeedback: function (app, filters, callback) {
     callback(null, null);
   }
 };
 
-var usersDao = {
-  checkUserExists: function (app, userId, callback) {
-    var err        = null
-      , userExists = true;
-    callback(err, userExists);
-  }
-};
-
-var usersDaoEmpty = {
-  checkUserExists: function (app, userId, callback) {
-    var err        = null
-      , userExists = false;
-    callback(err, userExists);
-  }
-};
-
-
 //--------------------------------------------------------------------------
 // Tests
 
-describe('Create Feedback API Call', function () {
+describe('Get Feedback API Call', function () {
 
   beforeEach(function () {
-    createFeedback = require('feedback/create_feedback/create_feedback')(feedbackDao, usersDao);
+    getFeedback = require('feedback/get_feedback/get_feedback')(feedbackDao);
   });
 
   //------------------------------------------------------------------------
@@ -43,7 +26,7 @@ describe('Create Feedback API Call', function () {
   describe('type check', function () {
 
     it('API call is a function', function () {
-      expect(typeof createFeedback).to.be.equal('function');
+      expect(typeof getFeedback).to.be.equal('function');
     });
 
   });
@@ -52,10 +35,10 @@ describe('Create Feedback API Call', function () {
 
   describe('response codes', function () {
 
-    it('sends a 400 status code if the application version is missing', function (done) {
+    it('sends a 400 status code if minScore is given and it is not a number', function (done) {
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
-      req.body   = { page: 'cafeteria menu', userId: '51', score: 4, comment: 'Nice!' };
+      req.query  = { minScore: 'foo' };
 
       var res = {
         send: function (statusCode, data) {
@@ -64,28 +47,13 @@ describe('Create Feedback API Call', function () {
         }
       };
 
-      createFeedback(req, res);
+      getFeedback(req, res);
     });
 
-    it('sends a 400 status code if the application page is missing', function (done) {
+    it('sends a 400 status code if maxScore is given and it is not a number', function (done) {
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
-      req.body   = { version: '3.4.2', userId: '51', score: 4, comment: 'Nice!' };
-
-      var res = {
-        send: function (statusCode, data) {
-          expect(statusCode).to.be.equal(400);
-          done()
-        }
-      };
-
-      createFeedback(req, res);
-    });
-
-    it('sends a 400 status code if the user id is missing', function (done) {
-      var req = {};
-      req.params = { app: 'Employee App', platform: 'ios' };
-      req.body   = { version: '3.4.2', page: 'cafeteria menu', score: 4, comment: 'Nice!' };
+      req.query  = { maxScore: 'foo' };
 
       var res = {
         send: function (statusCode, data) {
@@ -94,15 +62,13 @@ describe('Create Feedback API Call', function () {
         }
       };
 
-      createFeedback(req, res);
+      getFeedback(req, res);
     });
 
-    it('sends a 400 status code if the user id does not correspond to a valid user', function (done) {
-      createFeedback = require('feedback/create_feedback/create_feedback')(feedbackDao, usersDaoEmpty);
-
+    it('sends a 400 status code if score is given and it is not a number', function (done) {
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
-      req.body   = { version: '3.4.2', page: 'cafeteria menu', userId: '51', score: 4, comment: 'Nice!' };
+      req.query  = { score: 'foo' };
 
       var res = {
         send: function (statusCode, data) {
@@ -111,13 +77,43 @@ describe('Create Feedback API Call', function () {
         }
       };
 
-      createFeedback(req, res);
+      getFeedback(req, res);
+    });
+
+    it('sends a 400 status code if startDate is given and it is not a valid date', function (done) {
+      var req = {};
+      req.params = { app: 'Employee App', platform: 'ios' };
+      req.query  = { startDate: 'one yonder evening' };
+
+      var res = {
+        send: function (statusCode, data) {
+          expect(statusCode).to.be.equal(400);
+          done();
+        }
+      };
+
+      getFeedback(req, res);
+    });
+
+    it('sends a 400 status code if endDate is given and it is not a valid date', function (done) {
+      var req = {};
+      req.params = { app: 'Employee App', platform: 'ios' };
+      req.query  = { startDate: 'once upon a time' };
+
+      var res = {
+        send: function (statusCode, data) {
+          expect(statusCode).to.be.equal(400);
+          done();
+        }
+      };
+
+      getFeedback(req, res);
     });
 
     it('sends a 200 status code if everything is fine', function (done) {
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
-      req.body   = { version: '3.4.2', page: 'cafeteria menu', userId: '51', score: 4, comment: 'Nice!' };
+      req.query  = { minScore: '3', maxScore: '4', startDate: '1990-03-02' };
 
       var res = {
         send: function (statusCode, data) {
@@ -126,7 +122,7 @@ describe('Create Feedback API Call', function () {
         }
       };
 
-      createFeedback(req, res);
+      getFeedback(req, res);
     });
 
   });
