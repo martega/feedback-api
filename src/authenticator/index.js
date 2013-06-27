@@ -27,7 +27,12 @@ module.exports = function Authenticator(key) {
       , body     = JSON.stringify(req.body)
       , hmac     = crypto.createHmac('sha1', key);
 
-    hmac.update(httpVerb + url + body);
+    if (httpVerb === 'GET') {
+      hmac.update(httpVerb + url);
+    } else {
+      hmac.update(httpVerb + url + body);
+    }
+
     return hmac.digest('hex');
   }
 
