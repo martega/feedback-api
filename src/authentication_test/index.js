@@ -11,8 +11,9 @@ var authenticationTestApi = module.exports = express();
 
 authenticationTestApi.use(authenticator.authenticateRequest);
 
-authenticationTestApi.get('/authentication_test', function (req, res) {
+authenticationTestApi.all('/authentication_test', function (req, res) {
+  var httpVerb = req.method;
   res.send(200, {
-    message: 'Congratulations! The HMAC-SHA1 implementation works!'
+    message: 'Congratulations! Your ' + httpVerb + ' request was authenticated!'
   });
 });
