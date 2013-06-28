@@ -1,0 +1,8 @@
+////////////////////////////////////////////////////////////////////////////
+//                index.js for the get_applications module                //
+////////////////////////////////////////////////////////////////////////////
+
+var applicationsDao = require('../dao')
+  , getApplications = require('./get_applications')(applicationsDao);
+
+module.exports = getApplications;

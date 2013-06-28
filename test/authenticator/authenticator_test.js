@@ -98,6 +98,11 @@ function computeSignature(method, url, body, key) {
   var body     = JSON.stringify(body)
     , hmac     = crypto.createHmac('sha1', key);
 
-  hmac.update(method + url + body);
+  if (method === 'GET' || method === 'DELETE') {
+    hmac.update(method + url);
+  } else {
+    hmac.update(method + url + body);
+  }
+
   return hmac.digest('hex');
 }
