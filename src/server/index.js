@@ -48,5 +48,6 @@ function addEndpoints(app) {
   app.use(require('feature_requests'));
   app.use(require('feedback'));
   app.use(require('users'));
+  app.use(require('applications'));
   app.use(require('authentication_test'));
 }
