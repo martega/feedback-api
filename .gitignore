@@ -1,4 +1,8 @@
 *.swp
+*.aux
+*.log
+*.pdf
+*.toc
 node_modules/
 config/index.js
 test_coverage.html

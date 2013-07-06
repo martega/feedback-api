@@ -1,0 +1,60 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%               feedback-component documentation main.tex                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{report}
+
+\usepackage[margin=1.25in]{geometry}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{multirow}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+
+\renewcommand{\arraystretch}{2.3}
+
+%% rubber: set arguments -shell-escape
+\begin{document}
+	% TITLE
+	\title{Feedback Component API Documentation}
+	\author{Martin Ortega}
+	\date{\today}
+	\maketitle
+
+	% TABLE OF CONTENTS
+	\tableofcontents
+
+	% API SERVER
+	\chapter{API Server}
+		\input{api-server}
+
+	% MESSAGE AUTHENTICATION
+	\chapter{Message Authentication}
+		\input{message-authentication}
+
+	% API OVERVIEW
+	\chapter{API Overview}
+		\input{api-endpoints}
+
+	% APPLICATIONS AND PLATFORMS
+	\chapter{Application and Platform List}
+		\input{application-and-platform-list}
+
+	% FEATURE REQUESTS
+	\chapter{Feature Requests}
+		\input{feature-requests}
+
+	% FEEDBACK
+	\chapter{Feedback}
+		\input{feedback}
+
+	% USERS
+	\chapter{Users}
+		\input{users}
+
+\end{document}

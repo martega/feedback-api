@@ -1,0 +1,45 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                             api-overview.tex                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Quick API Overview}
+
+\begin{tabular}{ |c||l||c||p{4cm}| }
+\hline
+
+Application Info & /applications & GET & Get a list of all tracked applications and their platforms. \\
+
+\hline
+\hline
+
+\multirow{5}{*}{Feature Requests}
+&
+\multirow{3}{*}{/\$\{app\}/\$\{platform\}/feature\_requests}
+& POST & Create a new feature request. \\
+\cline{3-4}
+&& GET & Get a list of all feature requests for a specific application and platform \\
+\cline{2-4}
+& /\$\{app\}/\$\{platform\}/feature\_requests/\$\{id\}/votes
+& POST & Increment the vote count for a specific feature request \\
+
+\hline
+\hline
+
+\multirow{5}{*}{Feedback}
+&
+\multirow{3}{*}{/\$\{app\}/\$\{platform\}/feeedback}
+& POST & Create a new feedback record. \\
+\cline{3-4}
+&& GET & Get a list of all feedback for a specific application and platform. \\
+\cline{2-4}
+& /\$\{app\}/\$\{platform\}/feedback/histogram
+& GET & Get a histogram of rating score counts. \\
+
+\hline
+\hline
+
+Users & /\$\{app\}/\$\{platform\}/users
+& POST & Create a new user for a specific application and platform \\
+
+\hline
+\end{tabular}
