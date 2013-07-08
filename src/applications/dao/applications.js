@@ -2,46 +2,39 @@
 //                            applications.js                             //
 ////////////////////////////////////////////////////////////////////////////
 
-//
-// TODO: This code needs to be cleaned up. I should probably refactor the
-//       database structure so that application/platform data is easier to
-//       extract.
-//
+var _ = require('underscore');
+
 module.exports = function Applications(db) {
 
   function getApplications(callback) {
-    db.collectionNames(function (err, collectionNames) {
+    db.collection('users', function (err, usersCollection) {
       if (err) {
         callback(err);
         return;
       }
 
-      var apps    = {}
-        , pattern = /(?:\w+)\.(\w+)\.(\w+).*/;
+      var options = {
+        out   : { inline: 1 },
+      };
 
-      collectionNames.forEach(function (collectionName) {
-        collectionName = collectionName.name;
+      usersCollection.mapReduce(map, reduce, options, function (err, results) {
+        var applications = [];
 
-        var matches  = pattern.exec(collectionName)
-          , appName  = matches[1]
-          , platform = matches[2];
+        results.forEach(function (doc) {
+          applications.push({ name: doc._id, platforms: _.uniq(doc.value.platforms) });
+        });
 
-        if (appName === 'system') return;
-
-        if (!apps[appName]) {
-          apps[appName] = {};
-        }
-
-        apps[appName][platform] = true;
+        callback(err, applications);
       });
-
-      var x = []
-      for (appName in apps) {
-        x.push({ name: appName, platforms: Object.keys(apps[appName]) });
-      }
-
-      callback(null, x);
     });
+
+    function map() {
+      emit(this.app, this.platform);
+    }
+
+    function reduce(app, platforms) {
+      return { platforms: platforms };
+    }
   }
 
   //------------------------------------------------------------------------
