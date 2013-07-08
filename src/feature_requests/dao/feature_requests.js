@@ -15,14 +15,15 @@ var INITIAL_VOTES = 1;
 module.exports = function FeatureRequests(db) {
 
   function createFeatureRequest(app, creatorId, title, description, callback) {
-    var collectionName = app.name + '.' + app.platform + '.feature_requests';
-    db.collection(collectionName, function (err, featureRequestCollection) {
+    db.collection('feature_requests', function (err, featureRequestCollection) {
       if (err) {
         callback(err);
         return;
       }
 
       var featureRequest = {
+        app         : app.name,
+        platform    : app.platform,
         creatorId   : creatorId,
         title       : title,
         description : description,
@@ -40,14 +41,15 @@ module.exports = function FeatureRequests(db) {
   //------------------------------------------------------------------------
 
   function getFeatureRequests(app, callback) {
-    var collectionName = app.name + '.' + app.platform + '.feature_requests';
-    db.collection(collectionName, function (err, featureRequestCollection) {
+    db.collection('feature_requests', function (err, featureRequestCollection) {
       if (err) {
         callback(err);
         return;
       }
 
-      featureRequestCollection.find().toArray(function (err, featureRequests) {
+      var query = { app: app.name, platform: app.platform };
+
+      featureRequestCollection.find(query).toArray(function (err, featureRequests) {
         callback(err, featureRequests);
       });
     });
@@ -56,8 +58,7 @@ module.exports = function FeatureRequests(db) {
   //------------------------------------------------------------------------
 
   function incrementVoteCount(app, featureRequestId, callback) {
-    var collectionName = app.name + '.' + app.platform + '.feature_requests';
-    db.collection(collectionName, function (err, featureRequestCollection) {
+    db.collection('feature_requests', function (err, featureRequestCollection) {
       if (err) {
         callback(err);
         return;

@@ -131,8 +131,7 @@ describe('Feature Requests Dao', function () {
 
 function setupFeatureRequestsCollection(callback) {
   try {
-    var collectionName = app.name + '.' + app.platform + '.feature_requests';
-    db.collection(collectionName, function (err, collection) {
+    db.collection('feature_requests', function (err, collection) {
       if (err) callback(err);
       featureRequestsCollection = collection;
       featureRequestsCollection.remove(function (err) {
@@ -169,6 +168,8 @@ function resetFeatureRequestsCollectionWithData(data, callback) {
 var testData = [
   {
     _id         : 0,
+    app         : app.name,
+    platform    : app.platform,
     creatorId   : 0,
     title       : "Needs More Cowbell",
     description : "I feel that this application would greatly benefit from more cowbell.",
@@ -176,6 +177,8 @@ var testData = [
   },
   {
     _id         : 1,
+    app         : app.name,
+    platform    : app.platform,
     creatorId   : 1,
     title       : "More Pop",
     description : "Can you make it 'pop' more?",
@@ -183,6 +186,8 @@ var testData = [
   },
   {
     _id         : 2,
+    app         : app.name,
+    platform    : app.platform,
     creatorId   : 2,
     title       : "No Ads",
     description : "You don't want to ruin it with ads, because adds aren't cool.",
@@ -190,6 +195,8 @@ var testData = [
   },
   {
     _id         : 3,
+    app         : app.name,
+    platform    : app.platform,
     creatorId   : 3,
     title       : "Drop the THE",
     description : "Drop the 'the'. Just Facebook. It's cleaner.",
@@ -197,6 +204,8 @@ var testData = [
   },
   {
     _id         : 4,
+    app         : app.name,
+    platform    : app.platform,
     creatorId   : 4,
     title       : "Put Cover on TPS Report",
     description : "It's just that we're putting new coversheets on all the TPS reports before they go out now. " +
@@ -205,6 +214,8 @@ var testData = [
   },
   {
     _id         : 5,
+    app         : app.name,
+    platform    : app.platform,
     creatorId   : 5,
     title       : "No Spoon",
     description : "Then you'll see that it is not the spoon that bends, it is only yourself",
@@ -212,6 +223,8 @@ var testData = [
   },
   {
     _id         : 6,
+    app         : app.name,
+    platform    : app.platform,
     creatorId   : 6,
     title       : "I Have an Idea",
     description : "What about... a phone... you can smell through...",

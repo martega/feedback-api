@@ -97,8 +97,7 @@ describe('Users Dao', function () {
 
 function setupUsersCollection(callback) {
   try {
-    var collectionName = app.name + '.' + app.platform + '.users';
-    db.collection(collectionName, function (err, collection) {
+    db.collection('users', function (err, collection) {
       if (err) callback(err);
       usersCollection = collection;
       usersCollection.remove(function (err) {
@@ -131,7 +130,9 @@ function resetUsersCollectionWithData(data, callback) {
 
 var testData = [
   {
-    timestamp: "2013-06-20T03:36:25.302Z",
-    _id: ObjectID.createFromHexString("51c278b93c75a342cf000002")
+    _id       : ObjectID.createFromHexString("51c278b93c75a342cf000002"),
+    app       : app.name,
+    platform  : app.platform,
+    timestamp : "2013-06-20T03:36:25.302Z"
   }
 ];

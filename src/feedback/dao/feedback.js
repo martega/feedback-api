@@ -5,19 +5,20 @@
 module.exports = function Feedback(db) {
 
   function createFeedback(app, userId, score, comment, callback) {
-    var collectionName = app.name + '.' + app.platform + '.feedback';
-    db.collection(collectionName, function (err, feedbackCollection) {
+    db.collection('feedback', function (err, feedbackCollection) {
       if (err) {
         callback(err);
         return;
       }
 
       var feedback = {
+        app       : app.name,
+        platform  : app.platform,
+        version   : app.version,
+        page      : app.page,
         userId    : userId,
         score     : score,
         comment   : comment,
-        version   : app.version,
-        page      : app.page,
         timestamp : new Date()
       };
 
@@ -31,14 +32,13 @@ module.exports = function Feedback(db) {
   //------------------------------------------------------------------------
 
   function getFeedback(app, filters, callback) {
-    var collectionName = app.name + '.' + app.platform + '.feedback';
-    db.collection(collectionName, function (err, feedbackCollection) {
+    db.collection('feedback', function (err, feedbackCollection) {
       if (err) {
         callback(err);
         return;
       }
 
-      var query = constructGetFeedbackQuery(filters);
+      var query = constructGetFeedbackQuery(app, filters);
       feedbackCollection.find(query).toArray(function (err, feedback) {
         callback(err, feedback);
       });
@@ -47,47 +47,11 @@ module.exports = function Feedback(db) {
 
   //------------------------------------------------------------------------
 
-  function getFeedbackHistogram(app, callback) {
-    var collectionName = app.name + '.' + app.platform + '.feedback';
-    db.collection(collectionName, function (err, feedbackCollection) {
-      if (err) {
-        callback(err);
-        return;
-      }
-
-      feedbackCollection.mapReduce(map, reduce, { out: { inline: 1 } }, function (err, results) {
-        var histogram = {};
-
-        if (!err) {
-          results.forEach(function (doc) {
-            var score = doc._id
-              , count = doc.value.count;
-            histogram[score] = count;
-          });
-        }
-
-        callback(null, histogram);
-      });
-    });
-
-    function map() {
-      emit(this.score, { count: 1 });
-    }
-
-    function reduce(key, emits) {
-      var total = 0;
-      for (var i = 0; i < emits.length; i++) {
-        total += emits[i].count;
-      }
-      return { count: total };
-    }
-  }
-
-
-  //------------------------------------------------------------------------
-
-  function constructGetFeedbackQuery(filters) {
-    var query = {};
+  function constructGetFeedbackQuery(app, filters) {
+    var query = {
+      app      : app.name,
+      platform : app.platform
+    };
 
     if (!filters) {
       return query;
@@ -126,6 +90,59 @@ module.exports = function Feedback(db) {
     }
 
     return query;
+  }
+
+  //------------------------------------------------------------------------
+
+  function getFeedbackHistogram(app, callback) {
+    db.collection('feedback', function (err, feedbackCollection) {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      var options = {
+        out: { inline: 1 },
+        query: {
+          app      : app.name,
+          platform : app.platform
+        }
+      };
+
+      feedbackCollection.mapReduce(map, reduce, options, function (err, ratingCounts) {
+        var histogram;
+
+        if (!err) {
+          var histogram = turnRatingCountsIntoHistogram(ratingCounts);
+        }
+
+        callback(err, histogram);
+      });
+    });
+
+    function map() {
+      emit(this.score, { count: 1 });
+    }
+
+    function reduce(key, emits) {
+      var total = 0;
+      for (var i = 0; i < emits.length; i++) {
+        total += emits[i].count;
+      }
+      return { count: total };
+    }
+
+    function turnRatingCountsIntoHistogram(ratingCounts) {
+      var histogram = {};
+
+      ratingCounts.forEach(function (doc) {
+        var score = doc._id
+          , count = doc.value.count;
+        histogram[score] = count;
+      });
+
+      return histogram;
+    }
   }
 
   //------------------------------------------------------------------------

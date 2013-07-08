@@ -202,8 +202,7 @@ describe('Feedback Dao', function () {
 
 function setupFeedbackCollection(callback) {
   try {
-    var collectionName = app.name + '.' + app.platform + '.feedback';
-    db.collection(collectionName, function (err, collection) {
+    db.collection('feedback', function (err, collection) {
       if (err) callback(err);
       feedbackCollection = collection;
       feedbackCollection.remove(function (err) {
@@ -240,103 +239,125 @@ function resetFeedbackCollectionWithData(data, callback) {
 var testData = [
   {
     _id       : 0,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "home",
+    version   : '1.1.2',
     userId    : 80,
     score     : 5,
     comment   : "I love this app!",
-    page      : "home",
-    version   : '1.1.2',
     timestamp : new Date('1990-03-02')
   },
   {
     _id       : 1,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "settings",
+    version   : '0.1.2',
     userId    : 22,
     score     : 4,
     comment   : "This app is really good, but I have a slight, minor complaint.",
-    page      : "settings",
-    version   : '0.1.2',
     timestamp : new Date('1990-03-02')
   },
   {
     _id       : 2,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "profile",
+    version   : '1.19.3',
     userId    : 328,
     score     : 3,
     comment   : "This app is so meh. The design needs a major upgrade.",
-    page      : "profile",
-    version   : '1.19.3',
     timestamp : new Date('1990-03-02')
   },
   {
     _id       : 3,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "home",
+    version   : '2.1.2',
     userId    : 293,
     score     : 2,
     comment   : "I am giving this app 2 stars because it is missing some features " +
                 "that I feel are very critical. If those features are implemented " +
                 "I will update my score.",
-    page      : "home",
-    version   : '2.1.2',
     timestamp : new Date('2013-03-02')
   },
   {
     _id       : 4,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "home",
+    version   : '4.484.32',
     userId    : 11,
     score     : 5,
     comment   : "This app is great! I depend on it every day!",
-    page      : "home",
-    version   : '4.484.32',
     timestamp : new Date('2010-03-03')
   },
   {
     _id       : 5,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "home",
+    version   : '0.1.2',
     userId    : 28080,
     score     : 5,
     comment   : "oMg I lOvE this app 5ever!",
-    page      : "home",
-    version   : '0.1.2',
     timestamp : new Date('1996-03-03')
   },
   {
     _id       : 6,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "profile",
+    version   : '1.1.2',
     userId    : 222,
     score     : 1,
     comment   : "This app is really buggy and it crashes all the time :(",
-    page      : "profile",
-    version   : '1.1.2',
     timestamp : new Date('1884-12-25')
   },
   {
     _id       : 7,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "profile",
+    version   : '1.1.2',
     userId    : 23,
     score     : 5,
     comment   : "So good!",
-    page      : "profile",
-    version   : '1.1.2',
     timestamp : new Date('3045-03-03')
   },
   {
     _id       : 8,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "settings",
+    version   : '1.1.2',
     userId    : 99,
     score     : 5,
     comment   : "I give this 5 stars! YEAAAAHHHHH!",
-    page      : "settings",
-    version   : '1.1.2',
     timestamp : new Date('2245-03-03')
   },
   {
     _id       : 9,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "settings",
+    version   : '1.1.2',
     userId    : 94949,
     score     : 4,
     comment   : "Pretty good app",
-    page      : "settings",
-    version   : '1.1.2',
     timestamp : new Date('1990-03-03')
   },
   {
     _id       : 10,
+    app       : app.name,
+    platform  : app.platform,
+    page      : "home",
+    version   : '1.1.2',
     userId    : 8899,
     score     : 1,
     comment   : "Wow! What a waste of money!",
-    page      : "home",
-    version   : '1.1.2',
     timestamp : new Date('1990-03-03')
   }
 ];

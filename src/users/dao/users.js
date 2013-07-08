@@ -9,14 +9,17 @@ module.exports = Users;
 function Users(db) {
 
   function createUser(app, callback) {
-    var collectionName = app.name + '.' + app.platform + '.users';
-    db.collection(collectionName, function (err, usersCollection) {
+    db.collection('users', function (err, usersCollection) {
       if (err) {
         callback(err);
         return;
       }
 
-      var user = { timestamp: new Date() };
+      var user = {
+        app       : app.name,
+        platform  : app.platform,
+        timestamp : new Date()
+      };
 
       usersCollection.insert(user, { w: 1 }, function (err, results) {
         var user = results[0];
@@ -28,8 +31,7 @@ function Users(db) {
   //------------------------------------------------------------------------
 
   function checkUserExists(app, userId, callback) {
-    var collectionName = app.name + '.' + app.platform + '.users';
-    db.collection(collectionName, function (err, usersCollection) {
+    db.collection('users', function (err, usersCollection) {
       if (err) {
         callback(err);
         return;
@@ -41,7 +43,13 @@ function Users(db) {
         // invalid user id, the query should fail
       }
 
-      usersCollection.findOne({ _id: userId }, function (err, match) {
+      var query = {
+        _id      : userId,
+        app      : app.name,
+        platform : app.platform
+      };
+
+      usersCollection.findOne(query, function (err, match) {
         var userExists = match !== null;
         callback(err, userExists);
       });
