@@ -184,7 +184,27 @@ describe('Feedback Dao', function () {
         5: 5
       };
 
-      feedback.getFeedbackHistogram(app, function (err, histogram) {
+      var filters = {};
+
+      feedback.getFeedbackHistogram(app, filters, function (err, histogram) {
+        expect(err).to.be.null;
+        expect(histogram).to.be.eql(expectedHistogram);
+        done();
+      });
+    });
+
+    it('when constructing the histogram, it only includes feedback in the date range', function (done) {
+      var expectedHistogram = {
+        2: 1,
+        5: 3
+      };
+
+      var filters = {
+        startDate : new Date('1991-01-01'),
+        endDate   : new Date('2300-01-01')
+      };
+
+      feedback.getFeedbackHistogram(app, filters, function (err, histogram) {
         expect(err).to.be.null;
         expect(histogram).to.be.eql(expectedHistogram);
         done();

@@ -26,7 +26,7 @@ describe('Authenticator', function () {
   describe('authenticate request', function () {
 
     it('authenticates requests with a valid HMAC-SHA-1 signature', function () {
-      var req = createRequest('GET', '/ichiba/windows8/feedback')
+      var req  = createRequest('GET', '/ichiba/windows8/feedback')
         , res  = { send:  sinon.spy() }
         , next = sinon.spy();
 
@@ -37,7 +37,7 @@ describe('Authenticator', function () {
     });
 
     it('does not authenticate requests that used an incorrect hash key', function () {
-      var req = createBadRequest('GET', '/ichiba/windows8/feedback')
+      var req  = createBadRequest('GET', '/ichiba/windows8/feedback')
         , res  = { send:  sinon.spy() }
         , next = sinon.spy();
 
@@ -47,7 +47,7 @@ describe('Authenticator', function () {
     });
 
     it('does not authenticate requests that have been tampered with', function () {
-      var req = createRequest('GET', '/ichiba/windows8/users/10')
+      var req  = createRequest('GET', '/ichiba/windows8/users/10')
         , res  = { send:  sinon.spy() }
         , next = sinon.spy();
 
