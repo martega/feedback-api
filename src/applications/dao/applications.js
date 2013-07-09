@@ -21,6 +21,7 @@ module.exports = function Applications(db) {
         var applications = [];
 
         results.forEach(function (doc) {
+          if (!doc.value.platforms) doc.value = { platforms: [doc.value] };
           applications.push({ name: doc._id, platforms: _.uniq(doc.value.platforms) });
         });
 

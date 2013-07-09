@@ -39,8 +39,9 @@ describe('Applications Dao', function () {
 
     it('should return a list of applications and their respective platforms', function (done) {
       var expectedResults = [
+        { name: 'approval_app', platforms: [ 'iOS' ] },
         { name: 'employee_app', platforms: [ 'iOS', 'android', 'win8' ] },
-        { name: 'ichiba',       platforms: [ 'win8', 'web' ] },
+        { name: 'ichiba',       platforms: [ 'win8', 'web' ] }
       ];
 
       applicationsDao.getApplications(function (err, applications) {
@@ -194,5 +195,11 @@ var testData = [
     "platform": "web",
     "timestamp": new Date("2013-07-08T15:16:52.724-0700"),
     "_id": "51db3a54f3b0b25108000009"
+  },
+  {
+    "app": "approval_app",
+    "platform": "iOS",
+    "timestamp": new Date("2014-07-08T15:16:52.724-0700"),
+    "_id": "51db3a54f3b0b25108000010"
   }
 ];
