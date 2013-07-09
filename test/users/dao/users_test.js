@@ -32,12 +32,14 @@ describe('Users Dao', function () {
   describe('the constructor', function () {
 
     it('returns an object with a createUser function', function () {
-      var users = new Users();
       expect(typeof users.createUser).to.be.equal('function');
     });
 
+    it('returns an object with a getUsers function', function () {
+      expect(typeof users.getUsers).to.be.equal('function');
+    });
+
     it('returns an object with a checkUserExists function', function () {
-      var users = new Users();
       expect(typeof users.checkUserExists).to.be.equal('function');
     });
 
@@ -55,6 +57,25 @@ describe('Users Dao', function () {
       users.createUser(app, function (err, user) {
         expect(err).to.be.null;
         expect(user._id).to.not.be.undefined;
+        done();
+      });
+    });
+
+  });
+
+
+  //------------------------------------------------------------------------
+
+  describe('getUsers', function () {
+
+    beforeEach(function (done) {
+      resetUsersCollectionWithData(testData, done);
+    });
+
+    it('gets a list of all users for a specific application and platform', function (done) {
+      users.getUsers(app, function (err, userList) {
+        expect(err).to.be.null;
+        expect(userList).to.be.eql(testData);
         done();
       });
     });

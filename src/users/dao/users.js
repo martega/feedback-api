@@ -30,6 +30,26 @@ function Users(db) {
 
   //------------------------------------------------------------------------
 
+  function getUsers(app, callback) {
+    db.collection('users', function (err, usersCollection) {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      var query = {
+        app      : app.name,
+        platform : app.platform
+      };
+
+      usersCollection.find(query).toArray(function (err, users) {
+        callback(err, users);
+      });
+    });
+  }
+
+  //------------------------------------------------------------------------
+
   function checkUserExists(app, userId, callback) {
     db.collection('users', function (err, usersCollection) {
       if (err) {
@@ -61,6 +81,7 @@ function Users(db) {
 
   return {
     createUser : createUser,
+    getUsers   : getUsers,
     checkUserExists : checkUserExists
   };
 };
