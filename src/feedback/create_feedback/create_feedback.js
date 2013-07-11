@@ -26,8 +26,8 @@ module.exports = function createFeedback(feedbackDao, usersDao) {
     requestData.app.platform = req.params.platform;
     requestData.app.version  = req.body.version;
     requestData.app.page     = req.body.page;
-    requestData.userId       = req.body.userId
-    requestData.score        = req.body.score
+    requestData.userId       = req.body.userId;
+    requestData.score        = req.body.score;
     requestData.comment      = req.body.comment;
 
     return requestData;

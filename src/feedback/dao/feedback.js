@@ -63,7 +63,7 @@ module.exports = function Feedback(db) {
         var histogram;
 
         if (!err) {
-          var histogram = turnRatingCountsIntoHistogram(ratingCounts);
+          histogram = turnRatingCountsIntoHistogram(ratingCounts);
         }
 
         callback(err, histogram);
