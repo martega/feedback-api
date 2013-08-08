@@ -19,5 +19,54 @@ create user   & POST & /\$\{app\}/\$\{platform\}/users                \\
 \end{center}
 
 \section{Create User}
+
+Creates a user record for a given application and platform.
+
 \subsection{Request Format}
+
+\begin{center}
+\begin{tabular}{|l||l|}
+\hline
+HTTP Method & POST           \\
+\hline
+URI         & /\$\{app\}/\$\{platform\}/users \\
+\hline
+Query Parameters & N/A           \\
+\hline
+Body        & N/A           \\
+\hline
+\end{tabular}
+\end{center}
+
+
 \subsection{Response Format}
+
+The response body is a JSON object with a single field, \textbf{user},
+which is an object that represents the user record that was just created.
+The \textbf{user} object contains four fields;
+\begin{center}
+\begin{tabular}{l|l}
+\textbf{Field} & \textbf{Significance} \\
+\hline \\
+
+app & the name of the app the user is linked to \\
+platform & the platform the users is using the app on \\
+timestamp & the time and date the user record was created \\
+\_id & an identifier that can be used to uniquely identify the user record
+
+\end{tabular}
+\end{center}
+
+\subsection{Examples}
+
+\textbf{POST} http://feedback-api.cloudapp.net/ichiba/win8/users
+\begin{verbatim}
+{
+    "user":{
+        "app":"ichiba",
+        "platform":"win8",
+        "timestamp":"2013-08-08T01:00:10.924Z",
+        "_id":"5202ed9a82e1069944000001"
+    }
+}
+\end{verbatim}

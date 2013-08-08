@@ -28,10 +28,13 @@ at least one user for that application and platform.
 \begin{center}
 \begin{tabular}{|l||l|}
 \hline
-HTTP Method & TODO \\
-URL & TODO \\
-Q & TODO \\
-Body \\
+HTTP Method & GET           \\
+\hline
+URI         & /applications \\
+\hline
+Query Parameters & N/A           \\
+\hline
+Body        & N/A           \\
 \hline
 \end{tabular}
 \end{center}
@@ -39,8 +42,32 @@ Body \\
 
 \subsection{Response Format}
 
-\subsection{Examples}
-\begin{center}
-\textbf{GET} http://feedback-api.cloudapp.net/applications
-\end{center}
+The response body for this API call is a JSON object with a single field, \textbf{applications},
+which is a list of application objects. Every application object has two fields, \textbf{name},
+and \textbf{platforms}. The \textbf{name} field is the name of the appliction, and the
+\textbf{platforms} field is a list of all platforms that the application has users for.
 
+\subsection{Examples}
+
+\textbf{GET} http://feedback-api.cloudapp.net/applications
+\begin{verbatim}
+{
+    "applications":[
+        {
+            "name":"employee_app",
+            "platforms":[
+                "ios"
+            ]
+        },
+        {
+            "name":"ichiba",
+            "platforms":[
+                "win8",
+                "web",
+                "ios",
+                "android"
+            ]
+        }
+    ]
+}
+\end{verbatim}

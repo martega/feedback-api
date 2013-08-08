@@ -23,13 +23,74 @@ get feedback histogram & GET  & /\$\{app\}/\$\{platform\}/feedback/\$\{id\}/hist
 \end{center}
 
 \section{Create Feedback Record}
+
+Creates a feedback record for a spefic app and platform.
+
 \subsection{Request Format}
+
+\begin{center}
+\begin{tabular}{|l||l|}
+\hline
+HTTP Method & POST           \\
+\hline
+URI         & /\$\{app\}/\$\{platform\}/feedback \\
+\hline
+Query Parameters & N/A           \\
+\hline
+Body        & TODO           \\
+\hline
+\end{tabular}
+\end{center}
+
+
 \subsection{Response Format}
 
 \section{Get Feedback List}
+
+Gets a list of all feedback records for a specific app and platform. The
+feedback list can optionally filtered by app version, page the feedback was
+submitted from, score, and date.
+
 \subsection{Request Format}
+
+\begin{center}
+\begin{tabular}{|l||l|}
+\hline
+HTTP Method & GET           \\
+\hline
+URI         & /\$\{app\}/\$\{platform\}/feedback \\
+\hline
+Query Parameters & TODO           \\
+\hline
+Body        & N/A           \\
+\hline
+\end{tabular}
+\end{center}
+
 \subsection{Response Format}
 
 \section{Get Feedback Histogram}
+
+Get feedback score histogram for a specific app and platform. The return object
+is a dictionary object that maps score level to the number of users that
+rated the app at that score level. The feedback records used to make the
+histogram can be filtered by the page the user was on when they submitted
+their feedback, the app version, and date range.
+
 \subsection{Request Format}
+
+\begin{center}
+\begin{tabular}{|l||l|}
+\hline
+HTTP Method & GET           \\
+\hline
+URI         & /\$\{app\}/\$\{platform\}/feedback/histogram \\
+\hline
+Query Parameters & TODO           \\
+\hline
+Body        & N/A           \\
+\hline
+\end{tabular}
+\end{center}
+
 \subsection{Response Format}
