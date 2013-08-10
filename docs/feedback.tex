@@ -17,10 +17,12 @@ create feedback        & POST & /\$\{app\}/\$\{platform\}/feedback              
 \hline
 get feedback list      & GET  & /\$\{app\}/\$\{platform\}/feedback                    \\
 \hline
-get feedback histogram & GET  & /\$\{app\}/\$\{platform\}/feedback/\$\{id\}/histogram \\
+get feedback histogram & GET  & /\$\{app\}/\$\{platform\}/feedback/histogram \\
 \hline
 \end{tabular}
 \end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Create Feedback Record}
 
@@ -29,21 +31,72 @@ Creates a feedback record for a spefic app and platform.
 \subsection{Request Format}
 
 \begin{center}
-\begin{tabular}{|l||l|}
+\begin{tabular}{|l||l|l|}
 \hline
-HTTP Method & POST           \\
+
+HTTP Method & \multicolumn{2}{l|}{POST}   \\
+
 \hline
-URI         & /\$\{app\}/\$\{platform\}/feedback \\
 \hline
-Query Parameters & N/A           \\
+URI         & \multicolumn{2}{l|}{/\$\{app\}/\$\{platform\}/feedback} \\
 \hline
-Body        & TODO           \\
+\hline
+Query Parameters & \multicolumn{2}{l|}{N/A}           \\
+\hline
+\hline
+\multirow{5}{*}{Body} &
+   version & version of the application the user is using \\
+\cline{2-3}
+& page & page the user was on when rating the application \\
+\cline{2-3}
+& userId & user's unique identifier \\
+\cline{2-3}
+& score & \textbf{OPTIONAL}, number of stars the user is giving the app \\
+\cline{2-3}
+& comment & \textbf{OPTIONAL}, user's comments explaining the rating \\
+
 \hline
 \end{tabular}
 \end{center}
 
 
 \subsection{Response Format}
+
+The feedback object that was just created.
+
+\subsection{Examples}
+
+\subsubsection{Request}
+
+\textbf{POST} http://feedback-component.cloudapp.net/ichiba/win8/feedback
+\begin{verbatim}
+{
+    "version": "1.0.13",
+    "page": "home",
+    "userId": "52056b576bc22c68eb000004",
+    "score": 5,
+    "comment": "I love this app!"
+}
+\end{verbatim}
+
+\subsubsection{Response}
+\begin{verbatim}
+{
+    "feedback":{
+        "app":"ichiba",
+        "platform":"win8",
+        "version":"1.0.13",
+        "page":"home",
+        "userId":"52056b576bc22c68eb000004",
+        "score":5,
+        "comment":"I love this app!",
+        "timestamp":"2013-08-09T22:45:01.272Z",
+        "_id":"520570ed162bd697eb000007"
+    }
+}
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Get Feedback List}
 
@@ -54,25 +107,151 @@ submitted from, score, and date.
 \subsection{Request Format}
 
 \begin{center}
-\begin{tabular}{|l||l|}
+\begin{tabular}{|l||l|l|}
 \hline
-HTTP Method & GET           \\
+HTTP Method & \multicolumn{2}{l|}{GET}           \\
 \hline
-URI         & /\$\{app\}/\$\{platform\}/feedback \\
 \hline
-Query Parameters & TODO           \\
+URI         & \multicolumn{2}{l|}{/\$\{app\}/\$\{platform\}/feedback} \\
 \hline
-Body        & N/A           \\
+\hline
+\multirow{5}{*}{Query Parameters}
+
+& page & returns feedback sent from the given page \\
+\cline{2-3}
+& version & returns feedback for a specific version of the app \\
+\cline{2-3}
+& minScore & returns all feedback with score greater than or equal to minScore \\
+\cline{2-3}
+& maxScore & returns all feedback with score less than or equal to maxScore \\
+\cline{2-3}
+& score & returns all feedback with a specific score \\
+\cline{2-3}
+& startDate & returns all feedback sent after startDate \\
+\cline{2-3}
+& endDate & returns all feedback before endDate \\
+
+\hline
+\hline
+Body        & \multicolumn{2}{l|}{N/A}           \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Response Format}
 
+A list of feedback objects that match the query.
+
+\subsection{Examples}
+
+\subsubsection{Request}
+
+\textbf{GET} http://feedback-api.cloudapp.net/ichiba/win8/feedback
+
+\subsubsection{Response}
+\begin{verbatim}
+{
+    "feedback":[
+        {
+            "app":"ichiba",
+            "platform":"win8",
+            "version":"1.0.13",
+            "page":"home",
+            "userId":"52056b546bc22c68eb000002",
+            "score":5,
+            "comment":"This app is great!",
+            "timestamp":"2013-08-09T22:38:09.695Z",
+            "_id":"52056f51162bd697eb000002"
+        },
+        {
+            "app":"ichiba",
+            "platform":"win8",
+            "version":"1.0.13",
+            "page":"home",
+            "userId":"52056b546bc22c68eb000002",
+            "score":3,
+            "comment":"This app is alright I guess...",
+            "timestamp":"2013-08-09T22:40:09.822Z",
+            "_id":"52056fc9162bd697eb000003"
+        },
+        {
+            "app":"ichiba",
+            "platform":"win8",
+            "version":"1.0.13",
+            "page":"home",
+            "userId":"52056b576bc22c68eb000004",
+            "score":1,
+            "comment":"I hate this app!",
+            "timestamp":"2013-08-09T22:40:52.991Z",
+            "_id":"52056ff4162bd697eb000004"
+        }
+    ]
+}
+\end{verbatim}
+
+\subsubsection{Request}
+
+\textbf{GET} http://feedback-api.cloudapp.net/ichiba/win8/feedback?minScore=2
+
+\subsubsection{Response}
+\begin{verbatim}
+{
+    "feedback":[
+        {
+            "app":"ichiba",
+            "platform":"win8",
+            "version":"1.0.13",
+            "page":"home",
+            "userId":"52056b546bc22c68eb000002",
+            "score":5,
+            "comment":"This app is great!",
+            "timestamp":"2013-08-09T22:38:09.695Z",
+            "_id":"52056f51162bd697eb000002"
+        },
+        {
+            "app":"ichiba",
+            "platform":"win8",
+            "version":"1.0.13",
+            "page":"home",
+            "userId":"52056b546bc22c68eb000002",
+            "score":3,
+            "comment":"This app is alright I guess...",
+            "timestamp":"2013-08-09T22:40:09.822Z",
+            "_id":"52056fc9162bd697eb000003"
+        }
+    ]
+}
+\end{verbatim}
+
+\subsubsection{Request}
+
+\textbf{GET} http://feedback-api.cloudapp.net/ichiba/win8/feedback?minScore=2\&maxScore=4
+
+\subsubsection{Response}
+\begin{verbatim}
+{
+    "feedback":[
+        {
+            "app":"ichiba",
+            "platform":"win8",
+            "version":"1.0.13",
+            "page":"home",
+            "userId":"52056b546bc22c68eb000002",
+            "score":3,
+            "comment":"This app is alright I guess...",
+            "timestamp":"2013-08-09T22:40:09.822Z",
+            "_id":"52056fc9162bd697eb000003"
+        }
+    ]
+}
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Get Feedback Histogram}
 
 Get feedback score histogram for a specific app and platform. The return object
-is a dictionary object that maps score level to the number of users that
+is a dictionary that maps score level to the number of users that
 rated the app at that score level. The feedback records used to make the
 histogram can be filtered by the page the user was on when they submitted
 their feedback, the app version, and date range.
@@ -80,17 +259,44 @@ their feedback, the app version, and date range.
 \subsection{Request Format}
 
 \begin{center}
-\begin{tabular}{|l||l|}
+\begin{tabular}{|l||l|l|}
 \hline
-HTTP Method & GET           \\
+HTTP Method & \multicolumn{2}{l|}{GET}           \\
 \hline
-URI         & /\$\{app\}/\$\{platform\}/feedback/histogram \\
 \hline
-Query Parameters & TODO           \\
+URI         & \multicolumn{2}{l|}{/\$\{app\}/\$\{platform\}/feedback/histogram} \\
 \hline
-Body        & N/A           \\
+\hline
+\multirow{5}{*}{Query Parameters}
+
+& page & constructs histogram using feedback from the given page \\
+\cline{2-3}
+& version & constructs histogram for a specific version of the app \\
+\cline{2-3}
+& startDate & constructs histogram using feedback sent after startDate \\
+\cline{2-3}
+& endDate & constructs histogram using feedback sent before endDate \\
+
+\hline
+\hline
+Body        & \multicolumn{2}{l|}{N/A}           \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Response Format}
+
+\subsection{Examples}
+\subsubsection{Request}
+\textbf{GET} http://feedback-api.cloudapp.net/ichiba/win8/feedback/histogram
+\subsubsection{Response}
+\begin{verbatim}
+{
+    "histogram":{
+        "1":20,
+        "3":129,
+        "4":355,
+        "5":422
+    }
+}
+\end{verbatim}

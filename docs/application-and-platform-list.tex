@@ -1,5 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                    application-and-platform-list.tex                     %
+%                           application-info.tex                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{API Calls}
@@ -18,6 +21,8 @@ get application and platform list  & GET & /applications \\
 \end{tabular}
 \end{center}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Get Application and Platform List}
 
 Returns a list of all tracked applications and their respective platforms.
@@ -32,13 +37,14 @@ HTTP Method & GET           \\
 \hline
 URI         & /applications \\
 \hline
-Query Parameters & N/A           \\
+Query Parameters & N/A       \\
 \hline
-Body        & N/A           \\
+Body        & N/A            \\
 \hline
 \end{tabular}
 \end{center}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Response Format}
 
@@ -47,16 +53,24 @@ which is a list of application objects. Every application object has two fields,
 and \textbf{platforms}. The \textbf{name} field is the name of the appliction, and the
 \textbf{platforms} field is a list of all platforms that the application has users for.
 
+\vspace{3cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Examples}
 
+\subsubsection{Request}
 \textbf{GET} http://feedback-api.cloudapp.net/applications
+
+\subsubsection{Response}
 \begin{verbatim}
 {
     "applications":[
         {
             "name":"employee_app",
             "platforms":[
-                "ios"
+                "ios",
+                "android"
             ]
         },
         {
@@ -66,6 +80,12 @@ and \textbf{platforms}. The \textbf{name} field is the name of the appliction, a
                 "web",
                 "ios",
                 "android"
+            ]
+        },
+        {
+            "name":"approval_app",
+            "platforms":[
+                "ios"
             ]
         }
     ]

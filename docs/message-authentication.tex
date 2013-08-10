@@ -28,15 +28,14 @@ the algorithm:
 
 For all requests, the server expects to find the request signature in the \\
 \textbf{\textit{Feedback-Component-HMAC-SHA-1~}}
-header variable.
+header variable. For the examples in the following sections assume that the
+secret key is the string 'secret key'.
 
 \subsection{GET and DELETE Requests}
 
 For GET and DELETE requests, the hash value is computed from the concatenation
 of the http verb, resource path, and query string in that order.
 \subsubsection{Examples}
-
-For the following examples assume that the secret key is the string 'secret key'.
 
 \begin{center}
 \begin{tabular}{|l||l|}
