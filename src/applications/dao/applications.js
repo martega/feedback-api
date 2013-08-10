@@ -18,15 +18,22 @@ module.exports = function Applications(db) {
       usersCollection.mapReduce(map, reduce, options, function (err, results) {
         var applications = [];
 
-        results.forEach(function (doc) {
-          if (doc.value.platforms) {
-            applications.push({ name: doc._id, platforms: _.uniq(doc.value.platforms) });
-          } else {
-            applications.push({ name: doc._id, platforms: [ doc.value ] });
-          }
-        });
+        if (err && err.errmsg !== "ns doesn't exist") {
+          callback(err, null);
+          return;
+        }
 
-        callback(err, applications);
+        if (results) {
+          results.forEach(function (doc) {
+            if (doc.value.platforms) {
+              applications.push({ name: doc._id, platforms: _.uniq(doc.value.platforms) });
+            } else {
+              applications.push({ name: doc._id, platforms: [ doc.value ] });
+            }
+          });
+        }
+
+        callback(null, applications);
       });
     });
 
