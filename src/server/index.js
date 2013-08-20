@@ -5,6 +5,7 @@
 var express       = require('express')
   , http          = require('http')
   , config        = require('config')
+  , logger        = require('logger')
   , Authenticator = require('authenticator')
   , authenticator = new Authenticator(config.server.hmacKey);
 
@@ -32,6 +33,8 @@ function Server() {
 function addMiddleware(app) {
   app.use(express.responseTime());
   app.use(express.bodyParser());
+  app.use(logger.logRequest);
+  //app.use(logger.logResponse);
   app.use(express.errorHandler());
 
   if (app.get('env') === 'dev') {
