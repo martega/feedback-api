@@ -67,7 +67,7 @@ module.exports = function FeatureRequests(db) {
       try {
         featureRequestId = ObjectID.createFromHexString(featureRequestId);
       } catch (e) {
-        // featureRequestId is not a standard object id
+        // featureRequestId is not a standard object id, which is fine during test code
       }
 
       var query        = { _id: featureRequestId }
