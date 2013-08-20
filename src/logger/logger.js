@@ -8,11 +8,11 @@ module.exports = function Logger(logsDao) {
     var requestData = {
       protocol : req.protocol,
       verb     : req.method,
+      host     : req.host,
       resource : req.path,
       query    : req.query,
       body     : req.body,
-      ip       : req.ip,
-      host     : req.host,
+      ip       : req.ip
     };
 
     logsDao.logRequest(requestData);

@@ -15,11 +15,11 @@ module.exports = function Logs(db) {
         type      : 'request',
         protocol  : requestData.protocol,
         verb      : requestData.verb,
+        host      : requestData.host,
         resource  : requestData.resource,
         query     : requestData.query,
         body      : requestData.body,
         ip        : requestData.ip,
-        host      : requestData.host,
         timestamp : new Date()
       };
 
