@@ -30,6 +30,10 @@ module.exports = function createFeedback(feedbackDao, usersDao) {
     requestData.score        = req.body.score;
     requestData.comment      = req.body.comment;
 
+    if (requestData.score !== undefined) {
+      requestData.score = parseInt(requestData.score, 10);
+    }
+
     return requestData;
   }
 
@@ -42,6 +46,9 @@ module.exports = function createFeedback(feedbackDao, usersDao) {
     if (!requestData.app.version)  problems.push("the 'version' parameter is missing from the request body");
     if (!requestData.app.page)     problems.push("the 'page' parameter is missing from the request body");
     if (!requestData.userId)       problems.push("the 'userId' parameter is missing from the request body");
+    if (requestData.score !== undefined && isNaN(requestData.score)) {
+      problems.push("the 'score' parameter was given but it is not numeric");
+    }
 
     usersDao.checkUserExists(requestData.app, requestData.userId, function (err, userExists) {
       if (!userExists || err) {

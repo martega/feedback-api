@@ -114,6 +114,21 @@ describe('Create Feedback API Call', function () {
       createFeedback(req, res);
     });
 
+    it('sends a 400 status code if the score is given but it is not numeric', function (done) {
+      var req = {};
+      req.params = { app: 'Employee App', platform: 'ios' };
+      req.body   = { version: '3.4.2', page: 'cafeteria menu', userId: '51', score: 'wut wuuuut', comment: 'Nice!' };
+
+      var res = {
+        send: function (statusCode, data) {
+          expect(statusCode).to.be.equal(400);
+          done();
+        }
+      };
+
+      createFeedback(req, res);
+    });
+
     it('sends a 200 status code if everything is fine', function (done) {
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
