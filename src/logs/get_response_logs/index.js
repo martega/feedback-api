@@ -1,0 +1,8 @@
+////////////////////////////////////////////////////////////////////////////
+//               index.js for the get_response_logs module                //
+////////////////////////////////////////////////////////////////////////////
+
+var logsDao         = require('../dao')
+  , getResponseLogs = require('./get_response_logs')(logsDao);
+
+module.exports = getResponseLogs;
