@@ -22,7 +22,7 @@ dev: node_modules $(CONFIG_FILE)
 	@NODE_ENV=dev NODE_PATH=.:src node ./src/main.js
 
 production: node_modules $(CONFIG_FILE)
-	@NODE_ENV=production NODE_PATH=.:src node ./src/main.js
+	@NODE_ENV=production NODE_PATH=.:src node ./src/main.js &
 
 node_modules:
 	@npm install
