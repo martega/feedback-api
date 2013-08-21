@@ -7,7 +7,7 @@ module.exports = function Feedback(db) {
   function createFeedback(app, userId, score, comment, callback) {
     db.collection('feedback', function (err, feedbackCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -24,7 +24,7 @@ module.exports = function Feedback(db) {
 
       feedbackCollection.insert(feedback, { w: 1 }, function (err, results) {
         var feedback = results[0];
-        callback(err, feedback);
+        process.nextTick(callback.bind(null, err, feedback));
       });
     });
   }
@@ -34,13 +34,13 @@ module.exports = function Feedback(db) {
   function getFeedback(app, filters, callback) {
     db.collection('feedback', function (err, feedbackCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
       var query = constructGetFeedbackQuery(app, filters);
       feedbackCollection.find(query).toArray(function (err, feedback) {
-        callback(err, feedback);
+        process.nextTick(callback.bind(null, err, feedback));
       });
     });
   }
@@ -50,7 +50,7 @@ module.exports = function Feedback(db) {
   function getFeedbackHistogram(app, filters, callback) {
     db.collection('feedback', function (err, feedbackCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -66,7 +66,7 @@ module.exports = function Feedback(db) {
           histogram = turnRatingCountsIntoHistogram(ratingCounts);
         }
 
-        callback(err, histogram);
+        process.nextTick(callback.bind(null, err, histogram));
       });
     });
 

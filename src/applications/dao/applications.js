@@ -9,7 +9,7 @@ module.exports = function Applications(db) {
   function getApplications(callback) {
     db.collection('users', function (err, usersCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -19,7 +19,7 @@ module.exports = function Applications(db) {
         var applications = [];
 
         if (err && err.errmsg !== "ns doesn't exist") {
-          callback(err, null);
+          process.nextTick(callback.bind(null, err, null));
           return;
         }
 
@@ -33,7 +33,7 @@ module.exports = function Applications(db) {
           });
         }
 
-        callback(null, applications);
+        process.nextTick(callback.bind(null, null, applications));
       });
     });
 

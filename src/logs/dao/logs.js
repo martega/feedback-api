@@ -7,7 +7,7 @@ module.exports = function Logs(db) {
   function logRequest(requestData, callback) {
     db.collection('logs', function (err, logsCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -26,7 +26,7 @@ module.exports = function Logs(db) {
       logsCollection.insert(requestLog, { w: 1 }, function (err, results) {
         var requestLog = results[0];
         if (callback) {
-          callback(err, requestLog);
+          process.nextTick(callback.bind(null, err, requestLog));
         }
       });
     });
@@ -37,7 +37,7 @@ module.exports = function Logs(db) {
   function logResponse(responseData, callback) {
     db.collection('logs', function (err, logsCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -51,7 +51,7 @@ module.exports = function Logs(db) {
       logsCollection.insert(responseLog, { w: 1 }, function (err, results) {
         var responseLog = results[0];
         if (callback) {
-          callback(err, responseLog);
+          process.nextTick(callback.bind(null, err, responseLog));
         }
       });
     });
@@ -62,7 +62,7 @@ module.exports = function Logs(db) {
   function getRequestLogs(callback) {
     db.collection('logs', function (err, logsCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -70,7 +70,7 @@ module.exports = function Logs(db) {
 
       logsCollection.find(query).toArray(function (err, requestLogs) {
         if (callback) {
-          callback(err, requestLogs);
+          process.nextTick(callback.bind(null, err, requestLogs));
         }
       });
     });
@@ -81,7 +81,7 @@ module.exports = function Logs(db) {
   function getResponseLogs(callback) {
     db.collection('logs', function (err, logsCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -89,7 +89,7 @@ module.exports = function Logs(db) {
 
       logsCollection.find(query).toArray(function (err, responseLogs) {
         if (callback) {
-          callback(err, responseLogs);
+          process.nextTick(callback.bind(null, err, responseLogs));
         }
       });
     });
@@ -100,7 +100,7 @@ module.exports = function Logs(db) {
   function getAllLogs(callback) {
     db.collection('logs', function (err, logsCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -108,7 +108,7 @@ module.exports = function Logs(db) {
 
       logsCollection.find(query).toArray(function (err, allLogs) {
         if (callback) {
-          callback(err, allLogs);
+          process.nextTick(callback.bind(null, err, allLogs));
         }
       });
     });

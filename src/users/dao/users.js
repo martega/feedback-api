@@ -11,7 +11,7 @@ function Users(db) {
   function createUser(app, callback) {
     db.collection('users', function (err, usersCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -23,7 +23,7 @@ function Users(db) {
 
       usersCollection.insert(user, { w: 1 }, function (err, results) {
         var user = results[0];
-        callback(err, user);
+        process.nextTick(callback.bind(null, err, user));
       });
     });
   }
@@ -33,7 +33,7 @@ function Users(db) {
   function getUsers(app, callback) {
     db.collection('users', function (err, usersCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -43,7 +43,7 @@ function Users(db) {
       };
 
       usersCollection.find(query).toArray(function (err, users) {
-        callback(err, users);
+        process.nextTick(callback.bind(null, err, users));
       });
     });
   }
@@ -53,7 +53,7 @@ function Users(db) {
   function checkUserExists(app, userId, callback) {
     db.collection('users', function (err, usersCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -71,7 +71,7 @@ function Users(db) {
 
       usersCollection.findOne(query, function (err, match) {
         var userExists = match !== null;
-        callback(err, userExists);
+        process.nextTick(callback.bind(null, err, userExists));
       });
     });
   }

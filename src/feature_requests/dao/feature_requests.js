@@ -17,7 +17,7 @@ module.exports = function FeatureRequests(db) {
   function createFeatureRequest(app, creatorId, title, description, callback) {
     db.collection('feature_requests', function (err, featureRequestCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -33,7 +33,7 @@ module.exports = function FeatureRequests(db) {
 
       featureRequestCollection.insert(featureRequest, { w: 1 }, function (err, results) {
         var featureRequest = results[0];
-        callback(err, featureRequest);
+        process.nextTick(callback.bind(null, err, featureRequest));
       });
     });
   }
@@ -43,14 +43,14 @@ module.exports = function FeatureRequests(db) {
   function getFeatureRequests(app, callback) {
     db.collection('feature_requests', function (err, featureRequestCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
       var query = { app: app.name, platform: app.platform };
 
       featureRequestCollection.find(query).toArray(function (err, featureRequests) {
-        callback(err, featureRequests);
+        process.nextTick(callback.bind(null, err, featureRequests));
       });
     });
   }
@@ -60,7 +60,7 @@ module.exports = function FeatureRequests(db) {
   function incrementVoteCount(app, featureRequestId, callback) {
     db.collection('feature_requests', function (err, featureRequestCollection) {
       if (err) {
-        callback(err);
+        process.nextTick(callback.bind(null, err));
         return;
       }
 
@@ -76,7 +76,7 @@ module.exports = function FeatureRequests(db) {
         , options      = { w: 1, new: true };
 
       featureRequestCollection.findAndModify(query, sort, modification, options, function (err, result) {
-        callback(err, result);
+        process.nextTick(callback.bind(null, err, result));
       });
     });
   }

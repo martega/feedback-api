@@ -55,7 +55,7 @@ module.exports = function createFeatureRequest(featureRequestDao, usersDao) {
         validationError = 'Your request had the following problems: ' + problems.join(', ');
       }
 
-      callback(validationError);
+      process.nextTick(callback.bind(null, validationError));
     });
   }
 
