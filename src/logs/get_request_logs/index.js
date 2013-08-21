@@ -1,8 +1,0 @@
-////////////////////////////////////////////////////////////////////////////
-//                index.js for the get_request_logs module                //
-////////////////////////////////////////////////////////////////////////////
-
-var logsDao        = require('../dao')
-  , getRequestLogs = require('./get_request_logs')(logsDao);
-
-module.exports = getRequestLogs;

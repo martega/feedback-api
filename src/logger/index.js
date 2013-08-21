@@ -3,6 +3,6 @@
 ////////////////////////////////////////////////////////////////////////////
 
 var Logger  = require('./logger')
-  , logsDao = require('logs/dao');
+  , logsDao = require('./dao');
 
 module.exports = Logger(logsDao);
