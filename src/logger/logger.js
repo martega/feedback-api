@@ -44,13 +44,13 @@ module.exports = function Logger(logsDao) {
 
   //------------------------------------------------------------------------
 
-  function logServerProcessCreated() {
+  function logWorkerCreated() {
     // TODO
   }
 
   //------------------------------------------------------------------------
 
-  function logServerProcessTerminated() {
+  function logWorkerTerminated() {
     // TODO
   }
 
@@ -59,7 +59,7 @@ module.exports = function Logger(logsDao) {
   return {
     logRequest  : logRequest,
     logResponse : logResponse,
-    logServerProcessCreated    : logServerProcessCreated,
-    logServerProcessTerminated : logServerProcessTerminated
+    logWorkerCreated    : logWorkerCreated,
+    logWorkerTerminated : logWorkerTerminated
   };
 };

@@ -30,12 +30,12 @@ describe('Logger', function () {
       expect(typeof logger.logResponse).to.be.equal('function');
     });
 
-    it('should return an object with a logServerProcessCreated function', function () {
-      expect(typeof logger.logServerProcessCreated).to.be.equal('function');
+    it('should return an object with a logWorkerCreated function', function () {
+      expect(typeof logger.logWorkerCreated).to.be.equal('function');
     });
 
-    it('should return an object with a logServerProcessTerminated function', function () {
-      expect(typeof logger.logServerProcessTerminated).to.be.equal('function');
+    it('should return an object with a logWorkerTerminated function', function () {
+      expect(typeof logger.logWorkerTerminated).to.be.equal('function');
     });
 
   });
