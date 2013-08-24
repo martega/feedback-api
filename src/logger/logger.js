@@ -6,13 +6,14 @@ module.exports = function Logger(logsDao) {
 
   function logRequest(req, res, next) {
     var requestData = {
-      protocol : req.protocol,
-      verb     : req.method,
-      host     : req.host,
-      resource : req.path,
-      query    : req.query,
-      body     : req.body,
-      ip       : req.ip
+      workerPid : process.pid,
+      protocol  : req.protocol,
+      verb      : req.method,
+      host      : req.host,
+      resource  : req.path,
+      query     : req.query,
+      body      : req.body,
+      ip        : req.ip
     };
 
     logsDao.logRequest(requestData);
@@ -29,6 +30,7 @@ module.exports = function Logger(logsDao) {
 
       if (args.length === 2) {
         var responseData = {
+          workerPid  : process.pid,
           statusCode : args[0],
           body       : args[1]
         };
@@ -44,14 +46,14 @@ module.exports = function Logger(logsDao) {
 
   //------------------------------------------------------------------------
 
-  function logWorkerCreated() {
-    // TODO
+  function logWorkerCreated(worker) {
+    logsDao.logWorkerCreated(worker.process.pid);
   }
 
   //------------------------------------------------------------------------
 
-  function logWorkerTerminated() {
-    // TODO
+  function logWorkerTerminated(worker) {
+    logsDao.logWorkerTerminated(worker.process.pid);
   }
 
   //------------------------------------------------------------------------

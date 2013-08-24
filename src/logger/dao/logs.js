@@ -13,6 +13,7 @@ module.exports = function Logs(db) {
 
       var requestLog = {
         type      : 'request',
+        workerPid : requestData.workerPid,
         protocol  : requestData.protocol,
         verb      : requestData.verb,
         host      : requestData.host,
@@ -43,6 +44,7 @@ module.exports = function Logs(db) {
 
       var responseLog = {
         type        : 'response',
+        workerPid   : responseData.workerPid,
         statusCode  : responseData.statusCode,
         body        : responseData.body,
         timestamp   : new Date()
@@ -59,18 +61,23 @@ module.exports = function Logs(db) {
 
   //------------------------------------------------------------------------
 
-  function getRequestLogs(callback) {
+  function logWorkerCreated(workerPid, callback) {
     db.collection('logs', function (err, logsCollection) {
       if (err) {
         process.nextTick(callback.bind(null, err));
         return;
       }
 
-      var query = { type: 'request' };
+      var workerCreatedLog = {
+        type      : 'worker_created',
+        workerPid : workerPid,
+        timestamp : new Date()
+      };
 
-      logsCollection.find(query).toArray(function (err, requestLogs) {
+      logsCollection.insert(workerCreatedLog, { w: 1 }, function (err, results) {
+        var workerCreatedLog = results[0];
         if (callback) {
-          process.nextTick(callback.bind(null, err, requestLogs));
+          process.nextTick(callback.bind(null, err, workerCreatedLog));
         }
       });
     });
@@ -78,37 +85,23 @@ module.exports = function Logs(db) {
 
   //------------------------------------------------------------------------
 
-  function getResponseLogs(callback) {
+  function logWorkerTerminated(workerPid, callback) {
     db.collection('logs', function (err, logsCollection) {
       if (err) {
         process.nextTick(callback.bind(null, err));
         return;
       }
 
-      var query = { type: 'response' };
+      var workerTerminatedLog = {
+        type      : 'worker_terminated',
+        workerPid : workerPid,
+        timestamp : new Date()
+      };
 
-      logsCollection.find(query).toArray(function (err, responseLogs) {
+      logsCollection.insert(workerTerminatedLog, { w: 1 }, function (err, results) {
+        var workerTerminatedLog = results[0];
         if (callback) {
-          process.nextTick(callback.bind(null, err, responseLogs));
-        }
-      });
-    });
-  }
-
-  //------------------------------------------------------------------------
-
-  function getAllLogs(callback) {
-    db.collection('logs', function (err, logsCollection) {
-      if (err) {
-        process.nextTick(callback.bind(null, err));
-        return;
-      }
-
-      var query = {};
-
-      logsCollection.find(query).toArray(function (err, allLogs) {
-        if (callback) {
-          process.nextTick(callback.bind(null, err, allLogs));
+          process.nextTick(callback.bind(null, err, workerTerminatedLog));
         }
       });
     });
@@ -118,10 +111,9 @@ module.exports = function Logs(db) {
   // external interface
 
   return  {
-    logRequest      : logRequest,
-    logResponse     : logResponse,
-    getRequestLogs  : getRequestLogs,
-    getResponseLogs : getResponseLogs,
-    getAllLogs      : getAllLogs
+    logRequest          : logRequest,
+    logResponse         : logResponse,
+    logWorkerCreated    : logWorkerCreated,
+    logWorkerTerminated : logWorkerTerminated
   };
 };
