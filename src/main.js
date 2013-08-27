@@ -5,6 +5,7 @@
 var colors       = require('colors')
   , buildServer  = require('server')
   , logger       = require('logger')
+  , notifier     = require('notification_system')
   , cluster      = require('cluster')
   , port         = require('config').server.port
   , numServers   = require('config').server.numServers
@@ -21,10 +22,12 @@ if (cluster.isMaster) {
 
   cluster.on('online', function (worker) {
     logger.logWorkerCreated(worker);
+    notifier.sendWorkerCreatedNotification(worker);
   });
 
   cluster.on('exit', function (worker) {
     logger.logWorkerTerminated(worker);
+    notifier.sendWorkerTerminatedNotification(worker);
     cluster.fork();
   });
 }
