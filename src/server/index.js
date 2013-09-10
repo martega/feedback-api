@@ -26,7 +26,7 @@ function Server() {
   var server = http.createServer(app);
 
   return server;
-};
+}
 
 //--------------------------------------------------------------------------
 

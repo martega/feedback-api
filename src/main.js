@@ -8,7 +8,7 @@ var colors       = require('colors')
   , notifier     = require('notification_system')
   , cluster      = require('cluster')
   , port         = require('config').server.port
-  , numServers   = require('config').server.numServers
+  , numServers   = require('config').server.numServers;
 
 //--------------------------------------------------------------------------
 // master process
