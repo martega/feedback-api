@@ -50,5 +50,5 @@ module.exports = function Nofifier(emailSender, smsSender) {
   return {
     sendWorkerTerminatedNotification : sendWorkerTerminatedNotification,
     sendWorkerCreatedNotification    : sendWorkerCreatedNotification
-  }
+  };
 };
