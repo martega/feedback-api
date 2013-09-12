@@ -7,10 +7,10 @@ module.exports = function EmailSender(smtpTransport, sender) {
   function sendEmail(subject, message, receivers, callback) {
     receivers.forEach(function (receiver) {
       var mail = {
-        subject:subject,
-        from: sender,
-        to: receiver,
-        text: message
+        subject : subject,
+        from    : sender,
+        to      : receiver,
+        text    : message
       };
 
       smtpTransport.sendMail(mail, function (err, res) {
