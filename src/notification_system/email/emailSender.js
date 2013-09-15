@@ -18,7 +18,7 @@ module.exports = function EmailSender(smtpTransport, sender) {
           if (err) {
             callback('Could not send message to ' + receiver + ': ' + err, null);
           } else {
-            callback(null, 'Message successfull sent to ' + receiver);
+            callback(null, 'Message successfully sent to ' + receiver);
           }
         }
       });

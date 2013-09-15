@@ -12,16 +12,7 @@ module.exports = function Nofifier(emailSender, smsSender) {
       'This may be a sign that something is wrong.'
     ].join(' ');
 
-    emailSender.sendEmail(
-      '[Feedback Component API] Child Process Terminated',
-      message,
-      config.notifications.email.receivers
-    );
-
-    smsSender.sendTextMessage(
-      message,
-      config.notifications.sms.receivers
-    );
+    sendNotification(message);
   }
 
   //------------------------------------------------------------------------
@@ -32,6 +23,12 @@ module.exports = function Nofifier(emailSender, smsSender) {
       'I just thought that you would want to know.'
     ].join(' ');
 
+    sendNotification(message);
+  }
+
+  //------------------------------------------------------------------------
+
+  function sendNotification(message) {
     emailSender.sendEmail(
       '[Feedback Component API] Child Process Created',
       message,
