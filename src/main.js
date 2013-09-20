@@ -14,7 +14,7 @@ var colors       = require('colors')
 // master process
 
 if (cluster.isMaster) {
-  console.log('Feedback API is listening at port %s...'.bold.green, port);
+  printWelcomeMessage();
 
   for (var i = 0; i < numServers; i++) {
     cluster.fork();
@@ -38,4 +38,24 @@ if (cluster.isMaster) {
 else {
   var server = buildServer();
   server.listen(port);
+}
+
+//--------------------------------------------------------------------------
+// welcome message
+
+function printWelcomeMessage() {
+  console.log(('___________               .______.                  __\n' +
+               '\\_   _____/___   ____   __| _/\\_ |__ _____    ____ |  | __\n' +
+               ' |    __)/ __ \\_/ __ \\ / __ |  | __ \\\\__  \\ _/ ___\\|  |/ /\n' +
+               ' |     \\\\  ___/\\  ___// /_/ |  | \\_\\ \\/ __ \\\\  \\___|    <\n' +
+               ' \\___  / \\___  >\\___  >____ |  |___  (____  /\\___  >__|_ \\\n' +
+               '     \\/      \\/     \\/     \\/      \\/     \\/     \\/     \\/\n' +
+               '   _____ __________.___\n' +
+               '  /  _  \\\\______   \\   |\n' +
+               ' /  /_\\  \\|     ___/   |\n' +
+               '/    |    \\    |   |   |\n' +
+               '\\____|__  /____|   |___|\n' +
+               '        \\/').bold.green);
+
+  console.log('is listening at port '.bold.cyan + '%s'.bold.red, port);
 }
