@@ -98,7 +98,7 @@ describe('Get Feedback API Call', function () {
     it('sends a 400 status code if endDate is given and it is not a valid date', function (done) {
       var req = {};
       req.params = { app: 'Employee App', platform: 'ios' };
-      req.query  = { startDate: 'once upon a time' };
+      req.query  = { endDate: 'once upon a time' };
 
       var res = {
         send: function (statusCode, data) {
