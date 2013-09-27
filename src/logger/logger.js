@@ -27,6 +27,7 @@ module.exports = function Logger(logsDao) {
         resource  : req.path,
         query     : req.query,
         body      : req.body,
+        signature : req.get('Feedback-Component-HMAC-SHA-1'),
         ip        : req.ip,
         timestamp : req._startTime
       };
