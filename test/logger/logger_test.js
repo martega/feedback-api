@@ -22,12 +22,8 @@ describe('Logger', function () {
 
   describe('the constructor', function () {
 
-    it('should return an object with a logRequest function', function () {
-      expect(typeof logger.logRequest).to.be.equal('function');
-    });
-
-    it('should return an object with a logResponse function', function () {
-      expect(typeof logger.logResponse).to.be.equal('function');
+    it('should return an object with a logCorrespondence function', function () {
+      expect(typeof logger.logCorrespondence).to.be.equal('function');
     });
 
     it('should return an object with a logWorkerCreated function', function () {
