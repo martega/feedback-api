@@ -28,9 +28,9 @@ module.exports = function Authenticator(key) {
       , hmac     = crypto.createHmac('sha1', key);
 
     if (httpVerb === 'GET' || httpVerb === 'DELETE') {
-      hmac.update(new Buffer(httpVerb + url, 'utf-8'));
+      hmac.update(new Buffer(httpVerb + url, 'utf8'));
     } else {
-      hmac.update(new Buffer(httpVerb + url + body, 'utf-8'));
+      hmac.update(new Buffer(httpVerb + url + body, 'utf8'));
     }
 
     return hmac.digest('hex');

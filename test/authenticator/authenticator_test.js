@@ -99,9 +99,9 @@ function computeSignature(method, url, body, key) {
     , hmac     = crypto.createHmac('sha1', key);
 
   if (method === 'GET' || method === 'DELETE') {
-    hmac.update(new Buffer(method + url, 'utf-8'));
+    hmac.update(new Buffer(method + url, 'utf8'));
   } else {
-    hmac.update(new Buffer(method + url + body, 'utf-8'));
+    hmac.update(new Buffer(method + url + body, 'utf8'));
   }
 
   return hmac.digest('hex');
