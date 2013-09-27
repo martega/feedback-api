@@ -33,8 +33,7 @@ function Server() {
 function addMiddleware(app) {
   app.use(express.responseTime());
   app.use(express.bodyParser());
-  app.use(logger.logRequest);
-  //app.use(logger.logResponse);
+  app.use(logger.logCorrespondence);
   app.use(express.errorHandler());
 
   if (app.get('env') === 'dev') {

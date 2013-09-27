@@ -4,41 +4,40 @@
 
 module.exports = function Logger(logsDao) {
 
-  function logRequest(req, res, next) {
-    var requestData = {
-      workerPid : process.pid,
-      protocol  : req.protocol,
-      verb      : req.method,
-      host      : req.host,
-      resource  : req.path,
-      query     : req.query,
-      body      : req.body,
-      ip        : req.ip
-    };
+  function logCorrespondence(req, res, next) {
+    var end = res.end;
+    req._startTime = new Date;
 
-    logsDao.logRequest(requestData);
+    res.end = function (data, encoding) {
+      res.end = end;
+      res.end(data, encoding);
 
-    next();
-  }
+      var body;
 
-  //------------------------------------------------------------------------
-
-  function logResponse(req, res, next) {
-    var originalSend = res.send;
-    res.send = function () {
-      var args = Array.prototype.slice.call(arguments, 0);
-
-      if (args.length === 2) {
-        var responseData = {
-          workerPid  : process.pid,
-          statusCode : args[0],
-          body       : args[1]
-        };
-
-        logsDao.logResponse(responseData);
+      try {
+        body = JSON.parse(data);
+      } catch (err) {
+        body = {};
       }
 
-      originalSend.apply(res, args);
+      var requestData = {
+        protocol  : req.protocol,
+        verb      : req.method,
+        host      : req.host,
+        resource  : req.path,
+        query     : req.query,
+        body      : req.body,
+        ip        : req.ip,
+        timestamp : req._startTime
+      };
+
+      var responseData = {
+        statusCode : res.statusCode,
+        body       : body,
+        timestamp  : new Date
+      };
+
+      logsDao.logCorrespondence(requestData, responseData);
     };
 
     next();
@@ -59,8 +58,7 @@ module.exports = function Logger(logsDao) {
   //------------------------------------------------------------------------
 
   return {
-    logRequest  : logRequest,
-    logResponse : logResponse,
+    logCorrespondence   : logCorrespondence,
     logWorkerCreated    : logWorkerCreated,
     logWorkerTerminated : logWorkerTerminated
   };

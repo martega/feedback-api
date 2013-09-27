@@ -4,56 +4,26 @@
 
 module.exports = function Logs(db) {
 
-  function logRequest(requestData, callback) {
+  function logCorrespondence(requestData, responseData, callback) {
     db.collection('logs', function (err, logsCollection) {
       if (err) {
-        process.nextTick(callback.bind(null, err));
-        return;
-      }
-
-      var requestLog = {
-        type      : 'request',
-        workerPid : requestData.workerPid,
-        protocol  : requestData.protocol,
-        verb      : requestData.verb,
-        host      : requestData.host,
-        resource  : requestData.resource,
-        query     : requestData.query,
-        body      : requestData.body,
-        ip        : requestData.ip,
-        timestamp : new Date()
-      };
-
-      logsCollection.insert(requestLog, { w: 1 }, function (err, results) {
-        var requestLog = results[0];
         if (callback) {
-          process.nextTick(callback.bind(null, err, requestLog));
+          process.nextTick(callback.bind(null, err));
         }
-      });
-    });
-  }
-
-  //------------------------------------------------------------------------
-
-  function logResponse(responseData, callback) {
-    db.collection('logs', function (err, logsCollection) {
-      if (err) {
-        process.nextTick(callback.bind(null, err));
-        return;
       }
 
-      var responseLog = {
-        type        : 'response',
-        workerPid   : responseData.workerPid,
-        statusCode  : responseData.statusCode,
-        body        : responseData.body,
-        timestamp   : new Date()
+      var correspondence = {
+        type         : 'correspondence',
+        workerPid    : process.pid,
+        responseTime : responseData.timestamp - requestData.timestamp,
+        request      : requestData,
+        response     : responseData
       };
 
-      logsCollection.insert(responseLog, { w: 1 }, function (err, results) {
+      logsCollection.insert(correspondence, { w: 1 }, function (err, results) {
         var responseLog = results[0];
         if (callback) {
-          process.nextTick(callback.bind(null, err, responseLog));
+          process.nextTick(callback.bind(null, err, correspondence));
         }
       });
     });
@@ -111,8 +81,7 @@ module.exports = function Logs(db) {
   // external interface
 
   return  {
-    logRequest          : logRequest,
-    logResponse         : logResponse,
+    logCorrespondence   : logCorrespondence,
     logWorkerCreated    : logWorkerCreated,
     logWorkerTerminated : logWorkerTerminated
   };
