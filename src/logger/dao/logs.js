@@ -16,9 +16,9 @@ module.exports = function Logs(db) {
         type         : 'correspondence',
         workerPid    : process.pid,
         responseTime : responseData.timestamp - requestData.timestamp,
+        timestamp    : new Date(),
         request      : requestData,
-        response     : responseData,
-        timestamp : new Date()
+        response     : responseData
       };
 
       logsCollection.insert(correspondence, { w: 1 }, function (err, results) {

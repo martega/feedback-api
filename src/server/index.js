@@ -2,12 +2,13 @@
 //                     index.js for the server module                     //
 ////////////////////////////////////////////////////////////////////////////
 
-var express       = require('express')
-  , http          = require('http')
-  , config        = require('config')
-  , logger        = require('logger')
-  , Authenticator = require('authenticator')
-  , authenticator = new Authenticator(config.server.hmacKey);
+var express = require('express')
+  , http    = require('http')
+  , config  = require('config')
+  , logger  = require('logger')
+  , requestBodyHash = require('request_body_hash')
+  , Authenticator   = require('authenticator')
+  , authenticator   = new Authenticator(config.server.hmacKey);
 
 //--------------------------------------------------------------------------
 
@@ -32,6 +33,7 @@ function Server() {
 
 function addMiddleware(app) {
   app.use(express.responseTime());
+  app.use(requestBodyHash);
   app.use(express.bodyParser());
   app.use(logger.logCorrespondence);
   app.use(express.errorHandler());

@@ -2,13 +2,6 @@
 //                               logger.js                                //
 ////////////////////////////////////////////////////////////////////////////
 
-//--------------------------------------------------------------------------
-// TODO REMOVE LATER
-
-var crypto = require('crypto');
-
-//--------------------------------------------------------------------------
-
 module.exports = function Logger(logsDao) {
 
   function logCorrespondence(req, res, next) {
@@ -27,39 +20,14 @@ module.exports = function Logger(logsDao) {
         body = {};
       }
 
-//--------------------------------------------------------------------------
-// TODO REMOVE LATER
-
-    var httpVerb = req.method
-      , url      = req.url
-      , body     = JSON.stringify(req.body)
-      , hmac     = crypto.createHmac('sha1', 'secret key');
-
-    var stringToHash;
-
-    if (httpVerb === 'GET' || httpVerb === 'DELETE') {
-      stringToHash = httpVerb + url;
-      hmac.update(new Buffer(httpVerb + url, 'utf8'));
-    } else {
-      stringToHash = httpVerb + url + body;
-      hmac.update(new Buffer(httpVerb + url + body, 'utf8'));
-    }
-
-    var hash = hmac.digest('hex');
-
-//--------------------------------------------------------------------------
-
       var requestData = {
-
-        stringToHash : stringToHash,
-        expectedHash : hash,
-
         protocol  : req.protocol,
         verb      : req.method,
         host      : req.host,
         resource  : req.path,
         query     : req.query,
         body      : req.body,
+        bodyHash  : req.bodyHash,
         signature : req.get('Feedback-Component-HMAC-SHA-1'),
         ip        : req.ip,
         timestamp : req._startTime
